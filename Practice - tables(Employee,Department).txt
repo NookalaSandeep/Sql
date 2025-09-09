@@ -1,52 +1,81 @@
-create database company ;
-use company
-===============
-Employee table:
-===============
-drop table employee
-truncate employee
-create table if not exists employee (
-emp_id int,
-fname varchar(20) not null,
-lname varchar(20)not null,
-email varchar(20) not null,
-salary int not null,
-yoe int not null,
-dept_no int not null,
-months int,
-years int );
 
-==========
-seed data:
-==========
+create database company;
+use company;
 
-insert into employee (emp_id,fname,lname,email,salary,yoe,dept_no,months,years) 
-values 
-(1,' Sandeep ',' Nookala ','sandeep@gmail.com',100000,5,3,1,2021),
-(2,' Satish ',' Nookala ','satish@gmail.com',1000000,10,1,1,2021),
-(3,' Krishna ',' Nookala ','krishna@gmail.com',40000,20,2,1,2021),
-(4,' Padma ',' taddu ','padma@gmail.com',40000,5,3,2,2021),
-(5,' anusha ',' jangili ','anusha@gamil.com',20000,2,5,2,2021) ;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS department;
+
+-- Create department table WITHOUT unique constraint on dept_name
+CREATE TABLE IF NOT EXISTS department (
+    dept_no INT PRIMARY KEY AUTO_INCREMENT,
+    dept_name VARCHAR(50) NOT NULL,
+    emp_count INT DEFAULT 0 CHECK (emp_count >= 0),
+    manager_id INT,
+    dept_salary DECIMAL(12, 2) DEFAULT 0.00 CHECK (dept_salary >= 0)
+);
+
+-- Create employee table WITHOUT unique constraint on email
+CREATE TABLE IF NOT EXISTS employee (
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    salary DECIMAL(10, 2) NOT NULL CHECK (salary >= 0),
+    experience_years INT NOT NULL CHECK (experience_years >= 0),
+    experience_months INT NOT NULL CHECK (experience_months BETWEEN 0 AND 11),
+    dept_no INT NOT NULL,
+
+    FOREIGN KEY (dept_no) REFERENCES department(dept_no)
+);
+
+-- Seed data for department (6 rows, including duplicates)
+INSERT INTO department (dept_name, emp_count, manager_id, dept_salary) VALUES
+('Engineering', 5, NULL, 400000.00),
+('Human Resources', 3, NULL, 200000.00),
+('Sales', 4, NULL, 350000.00),
+('Marketing', 2, NULL, 150000.00),
+('Engineering', 5, NULL, 400000.00), -- duplicate
+('Sales', 4, NULL, 350000.00);       -- duplicate
+
+-- Seed data for employee (20 rows, including duplicates)
+INSERT INTO employee (first_name, last_name, email, salary, experience_years, experience_months, dept_no) VALUES
+(' 	Alice ', 'Smith', 'alice.smith@example.com', 85000.00, 5, 3, 1),
+(' 	Bob ', 'Johnson', 'bob.johnson@example.com', 92000.00, 6, 0, 2),
+(' 	Carol ', 'Williams', 'carol.williams@example.com', 73000.00, 4, 6, 3),
+(' 	David ', 'Brown', 'david.brown@example.com', 78000.00, 3, 2, 4),
+(' 	Eve ', 'Davis', 'eve.davis@example.com', 88000.00, 5, 10, 1),
+(' 	Frank ', 'Miller', 'frank.miller@example.com', 67000.00, 2, 7, 2),
+(' 	Grace ', 'Wilson', 'grace.wilson@example.com', 94000.00, 7, 0, 3),
+(' 	Henry ', 'Moore', 'henry.moore@example.com', 80000.00, 4, 4, 4),
+(' 	Ivy ', 'Taylor', 'ivy.taylor@example.com', 86000.00, 5, 1, 1),
+(' 	Jake ', 'Anderson', 'jake.anderson@example.com', 99000.00, 8, 0, 2),
+(' 	Alice ', 'Smith', 'alice.duplicate@example.com', 85000.00, 5, 3, 1),
+(' 	David ', 'Brown', 'david.brown.dup@example.com', 78000.00, 3, 2, 4),
+(' 	Eve ', 'Davis', 'eve.davis@example.com', 88000.00, 5, 10, 1),
+(' 	Carol ', 'Williams', 'carol.dup@example.com', 73000.00, 4, 6, 3),
+(' 	Jake ', 'Anderson', 'jake.anderson.2@example.com', 99000.00, 8, 0, 2),
+(' 	Henry ', 'Moore', 'henry.moore@example.com', 80000.00, 4, 4, 4),
+(' 	Frank ', 'Miller', 'frank.duplicate@example.com', 67000.00, 2, 7, 2),
+(' 	Ivy ', 'Taylor', 'ivy.taylor.2@example.com', 86000.00, 5, 1, 1),
+(' 	Bob ', 'Johnson', 'bob.duplicate@example.com', 92000.00, 6, 0, 2),
+(' 	Grace ', 'Wilson', 'grace.duplicate@example.com', 94000.00, 7, 0, 3);
+
+-- Append more departments (including a duplicate)
+INSERT INTO department (dept_name, emp_count, manager_id, dept_salary) VALUES
+('Finance', 3, NULL, 220000.00),
+('IT Support', 4, NULL, 180000.00),
+('Operations', 6, NULL, 300000.00),
+('Legal', 2, NULL, 160000.00),
+('Finance', 3, NULL, 220000.00);  -- duplicate
+
+-- Append more employees (including a duplicate)
+INSERT INTO employee (first_name, last_name, email, salary, experience_years, experience_months, dept_no) VALUES
+('Nina', 'Scott', 'nina.scott@example.com', 91000.00, 6, 5, 5),
+('Oscar', 'Reed', 'oscar.reed@example.com', 74000.00, 3, 11, 6),
+('Paula', 'Lee', 'paula.lee@example.com', 88000.00, 5, 9, 7),
+('Quinn', 'Hall', 'quinn.hall@example.com', 93000.00, 6, 2, 8),
+('Nina', 'Scott', 'nina.duplicate@example.com', 91000.00, 6, 5, 5);
 
 
-==================
-Department table:
-==================
-drop table department
-truncate department
-create table department(
-dept_no int,
-dept_name varchar(20),
-emp_count int,
-manager_id int,
-dept_salary int);
 
-insert into department(dept_no,dept_name,manager_id) 
-values
-(1,'CSE',Null),
-(2,'CIVIL',1),
-(3,'MECH',2),
-(4,'ECE',Null),
-(5,'EEE',3),
-(6,'MBA',Null),
-(7,'PHARMACY',Null);
+
