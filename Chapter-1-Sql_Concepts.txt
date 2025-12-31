@@ -1,5 +1,61 @@
 
+Introduction to SQL:
+====================
+SQL (Structured Query Language) is a standard language for managing and manipulating relational databases. It allows users to create, read, update, and delete data (CRUD operations). SQL is essential because it provides a consistent way to interact with data across different database systems.
 
+Types of SQL Commands:
+-----------------------
+1. DDL (Data Definition Language): Used to define and manage database structure (CREATE, ALTER, DROP).
+2. DML (Data Manipulation Language): Used to manipulate data within tables (INSERT, UPDATE, DELETE, SELECT).
+3. DCL (Data Control Language): Deals with permissions and access control (GRANT, REVOKE).
+4. TCL (Transaction Control Language): Manages transactions (COMMIT, ROLLBACK, SAVEPOINT).
+
+Data Types:
+-----------
+SQL supports various data types:
+- String Types: CHAR, VARCHAR, TEXT for storing text.
+- Numeric Types: INT, FLOAT, DECIMAL for numbers.
+- Date/Time Types: DATE, TIME, TIMESTAMP for temporal data.
+
+Joins:
+------
+Joins combine rows from two or more tables based on related columns:
+- INNER JOIN: Returns matching rows from both tables.
+- LEFT JOIN: Returns all rows from the left table and matched rows from the right.
+- RIGHT JOIN: Returns all rows from the right table and matched rows from the left.
+- FULL JOIN: Returns all rows when there is a match in either table.
+
+Indexes:
+--------
+Indexes improve query performance by allowing faster data retrieval. Common types include:
+- Primary Index: Created automatically with PRIMARY KEY.
+- Unique Index: Ensures uniqueness of values.
+- Composite Index: Based on multiple columns.
+
+Normalization:
+--------------
+Normalization organizes data to reduce redundancy:
+- 1NF: Eliminate repeating groups.
+- 2NF: Remove partial dependencies.
+- 3NF: Remove transitive dependencies.
+
+Transactions and ACID Properties:
+---------------------------------
+Transactions ensure data integrity. ACID stands for:
+- Atomicity: All operations succeed or fail together.
+- Consistency: Database remains in a valid state.
+- Isolation: Transactions do not interfere with each other.
+- Durability: Changes persist after commit.
+
+Views and Stored Procedures:
+----------------------------
+- Views: Virtual tables based on queries.
+- Stored Procedures: Precompiled SQL code for reuse.
+
+Advanced SQL:
+-------------
+- Window Functions: Perform calculations across sets of rows related to the current row.
+- Subqueries: Nested queries for complex filtering.
 
 
 
