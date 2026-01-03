@@ -1,131 +1,7 @@
 
-Introduction to SQL:
-====================
-SQL (Structured Query Language) is a standard language for managing and manipulating relational databases. It allows users to create, read, update, and delete data (CRUD operations). SQL is essential because it provides a consistent way to interact with data across different database systems.
-
-Types of SQL Commands:
------------------------
-1. DDL (Data Definition Language): Used to define and manage database structure (CREATE, ALTER, DROP).
-2. DML (Data Manipulation Language): Used to manipulate data within tables (INSERT, UPDATE, DELETE, SELECT).
-3. DCL (Data Control Language): Deals with permissions and access control (GRANT, REVOKE).
-4. TCL (Transaction Control Language): Manages transactions (COMMIT, ROLLBACK, SAVEPOINT).
-
-Data Types:
------------
-SQL supports various data types:
-- String Types: CHAR, VARCHAR, TEXT for storing text.
-- Numeric Types: INT, FLOAT, DECIMAL for numbers.
-- Date/Time Types: DATE, TIME, TIMESTAMP for temporal data.
-
-Joins:
-------
-Joins combine rows from two or more tables based on related columns:
-- INNER JOIN: Returns matching rows from both tables.
-- LEFT JOIN: Returns all rows from the left table and matched rows from the right.
-- RIGHT JOIN: Returns all rows from the right table and matched rows from the left.
-- FULL JOIN: Returns all rows when there is a match in either table.
-
-Indexes:
---------
-Indexes improve query performance by allowing faster data retrieval. Common types include:
-- Primary Index: Created automatically with PRIMARY KEY.
-- Unique Index: Ensures uniqueness of values.
-- Composite Index: Based on multiple columns.
-
-Normalization:
---------------
-Normalization organizes data to reduce redundancy:
-- 1NF: Eliminate repeating groups.
-- 2NF: Remove partial dependencies.
-- 3NF: Remove transitive dependencies.
-
-Transactions and ACID Properties:
----------------------------------
-Transactions ensure data integrity. ACID stands for:
-- Atomicity: All operations succeed or fail together.
-- Consistency: Database remains in a valid state.
-- Isolation: Transactions do not interfere with each other.
-- Durability: Changes persist after commit.
-
-Views and Stored Procedures:
-----------------------------
-- Views: Virtual tables based on queries.
-- Stored Procedures: Precompiled SQL code for reuse.
-
-Advanced SQL:
--------------
-- Window Functions: Perform calculations across sets of rows related to the current row.
-- Subqueries: Nested queries for complex filtering.
-
-
-
-Data types:
-===========
-
-1.alpahabets - string/varchar
-2.numeric - int,float,decimal
-3.timestamp: 
-      
-	Now () / current_timestamp() - present time
-
-Create table :
-==============
-create table course_new(
-course_id int auto_increment,
-name varchar(20) not null,
-months decimal(3,1) not null,
-fee int not null,
-insert_date timestamp default now(),
-Updated_date timestamp default now() on update now(),
-primary key(course_id)
-);
-
-seed data:
--------------
-insert into course_new(name,months,fee) values('big data',6.80,50000),
-('web development',5.20,40000),
-('data science',12.00,100000),
-('devops',4.40,30000);
-
-
-Case:
-=====
-
-select course_id,name,months,fee,
-case
-when months>6 then 'masters'
-else 'diploma'
-end as course_type
-from course;
-
-
-
-Case:
-=====
-
-select course_id,name,months,fee,
-case
-when months>6 then 'masters'
-when months>4 then 'diploma'
-else 'school'
-end as course_type
-from course;
-
-
-select id,fname,lname,company,
-case
-when company in ('google','microsoft','facebook') then 'product Base'
-else 'service based'
-end as company_type 
-from student;
-
-*********************************************************
-Ide-Groom:
-==========
-mysql-ctl cli
 
 DDL - Data Definition language: 
-===============================================
+===============================
 1.create
 2.drop
 3.alter
@@ -135,61 +11,60 @@ DDL - Data Definition language:
 1.Create:
 ==========
 
-CREATE DATABASE test;
-
-create table if not exists employee(
-first_name varchar(20),
-middle_name varchar(20),
-last_name varchar(20),
-age int,
-salary int,
-experience float,
-location varchar(20),
-primary key(first_name)
-);
-
 Shows available databases:
----------------
+--------------------------
 SHOW DATABASES;
 SHOW TABLES ;
 
-
-To work On preferred database:
-------------------
-USE TEST;
-
-
 Current Working database:
-----------------------
+-------------------------
 SELECT DATABASE();
 
+Create new 'TEST' database:
+---------------------------
+CREATE DATABASE TEST;
 
-Show create table:
------------------------
+To work On preferred database:
+-----------------------------
+USE TEST;
+
+Create new EMPLOYEE Table:
+--------------------------
+CREATE TABLE IF NOT EXISTS EMPLOYEE(
+FIRST_NAME VARCHAR(20),
+MIDDLE_NAME VARCHAR(20),
+LAST_NAME VARCHAR(20),
+AGE INT,
+SALARY INT,
+EXPERIENCE FLOAT,
+LOCATION VARCHAR(20),
+PRIMARY KEY(FIRST_NAME)
+);
+
+Check create table statment:
+----------------------------
 SHOW CREATE TABLE employee;
-SHOW CREATE TABLE dept;
 
-
-Structure of table:
+check Structure of table:
 ---------------------
 describe employee;
 desc employee;
 
 
 2.drop:
-=================
+=======
 drop database TEST;
 drop table employee;
 
 3.alter:    used to do strucutral changes to table 
-==========
+========
 
 add new column:
-----------------
-alter table employee add column id int ;
+---------------
+alter table employee add column id int;
 
 drop column:
----------------
+------------
 alter table employee drop column id; 
 
 modify column:
@@ -205,58 +80,21 @@ alter table employee add primary key (first_name);
 
 4.truncate: remove all records
 ===========
-
 truncate table employee;
-************************************************************************
+
+
 
 
 DML - Data manipulation language
 ================================
-1.Insert 
-2.select
+1.select 
+2.Insert 
 3.Update
 3.Delete
 4.merge
 
-
-1.insert data into tables:
-===============================================
-
-create table employee(
-first_name varchar(20) NOT NULL,
-middle_name varchar(20) ,
-last_name varchar(20),
-age int NOT NULL,
-salary int NOT NULL,
-experience float NOT NULL,
-location varchar(20) default 'Narsampet'
-);
-
-
-Simple insert:
---------------
-
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,'bangalore');
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Satish','Nookala',28,190000,9.5,'Hyderabad');
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Krishna','Nookala',60,200000,30,'Narsampet');
-
-insert into employee values('Krishna',NULL,'Nookala',60,200000,30,'Narsampet');
-insert into employee values('Padma',NULL,'Nookala',50,10000,20,'Narsampet');
-insert into employee values('teju',NULL,'Nookala',50,1,20,'hyd');
-
-multiple inserts in one go:
---------------------------
-insert into employee(first_name,last_name,age,salary,experience,location)
-values('anusha','Nookala',27,100,2,'Hyderabad'),
-('Sandeep','Nookala',28,90000,4.5,'bangalore'),
-('Satish','Nookala',28,190000,9.5,'Hyderabad'),
-('Krishna','Nookala',60,200000,30,'Narsampet'),
-('swathi','Nookala',18,10,0.1,'Hyderabad'),
-('Padma','Nookala',50,10000,20,'Narsampet');
-
-
-2.select:
-===================
+1.select:
+=========
 simple select:
 -------------
 select * from employee;
@@ -266,46 +104,64 @@ select specfic column:
 select first_name,last_name from employee;
 
 select specfic rows based on condition:
------------------------------
+---------------------------------------
 
 select * from employee where age>27;
 select * from employee where first_name = 'SANDEEP';
 
 case sensitive select query:
-==========================
+----------------------------
 select * from employee where binary first_name ='SANDEEP'; 
 
 alias:
-======
+------
 select first_name as name ,last_name as surname from employee;
+
+
+2.insert data into tables:
+==========================
+
+Insert with Column Names: Specifies target columns explicitly, making the query safe and flexible.
+-------------------------
+insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,'Narsampet');
+insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Satish','Nookala',28,190000,9.5,'Narsampet');
+insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Krishna','Nookala',60,200000,30,'Narsampet');
+
+
+Insert Without Column Names (Column Order): Relies on table column order; risky if schema changes.
+-------------------------------------------
+insert into employee values('Krishna',NULL,'Nookala',60,200000,30,'Narsampet');
+insert into employee values('Padma',NULL,'Nookala',50,10000,20,'Narsampet');
+
+
+multiple inserts in one go: Efficient for bulk data insertion, reducing network overhead.
+---------------------------
+insert into employee(first_name,last_name,age,salary,experience,location)
+values('anusha','Nookala',27,100,2,'Hyderabad'),
+('Sandeep','Nookala',28,90000,4.5,'Narsampet'),
+('Satish','Nookala',28,190000,9.5,'Hyderabad'),
+('Krishna','Nookala',60,200000,30,'Narsampet'),
+('Padma','Nookala',50,10000,20,'Narsampet');
 
 
 3.UPDATE:
 =========
-update employee set last_name = 'gattu' where salary = 10;
-
 update employee set last_name = 'jangili' where salary =100;
 
 update employee set salary = salary+5000 ;
 
-update employee set location = 'tirumalagiri' where first_name = 'swathi' and last_name = 'gattu';
+update employee set location = 'bangalore' where first_name = 'Sandeep' and last_name = 'Nookala';
 
 
 4.Delete:
 =========
 remove specfic record:
-=============
-delete from employee where first_name= 'teju';
+----------------------
+delete from employee where first_name= 'anusha';
 
 remove all record:
-============
+------------------
 delete from employee;
-
-
-
-
-
-
 
 
 *************************************************************
@@ -325,12 +181,8 @@ NULL = Unknown value
 •	UNIQUE 
 
 
-
- 
-
-
 1.NOT NULL:
-===============================================
+===========
 
 create table employee(first_name varchar(20) NOT NULL,
 middle_name varchar(20) ,
@@ -347,7 +199,7 @@ desc employee;
 
 
 2. default values:
-===============================================
+==================
 create table employee(first_name varchar(20) NOT NULL,
 middle_name varchar(20) ,
 last_name varchar(20) NOT NULL,
@@ -373,7 +225,7 @@ select * from employee;
 
 
 Combination of NOTNULL and Default values:
-===============================================
+==========================================
 
 create table employee(first_name varchar(20) NOT NULL,
 middle_name varchar(20) ,
@@ -400,7 +252,7 @@ desc employee;
 
 
 3. Primary Key:
-===============================================
+===============
 
 create table if not exists employee(
 id int primary key,
@@ -490,7 +342,7 @@ desc employee;
 
 
 4.Unique key:
-===============================================
+=============
 create table if not exists employee(
 id int auto_increment,
 first_name varchar(20) not null,
@@ -521,7 +373,7 @@ desc employee;
 
 
 Contraints:
-=============
+===========
 
 •	FOREIGN KEY
       parent table
@@ -820,7 +672,7 @@ Keywords
 .like
 
 Distinct:
-===========
+=========
 
 select distinct location from student;
 select distinct company from student;
@@ -838,7 +690,7 @@ select fname,yoe from student order by 2;
 select fname,yoe from student order by fname,yoe;
 
 where:
-========
+======
 
 select * from student where yoe>2;
 
@@ -913,7 +765,7 @@ employee where rownumber = 5 ;
 
 
 partition & row_number: Assign row numbers to each partition
-==========================
+=======================
 
 select fname,lname,salary,location,
 row_number() over(partition by location order by salary)as rownum from employee;
@@ -934,7 +786,13 @@ select fname,lname,location,salary,
 rank() over(order by salary desc) from employee;
 
 Dense rank:
-============
+===========
 
 select fname,lname,location,salary,
 dense_rank() over(order by salary desc) as "dense_rank" from employee;
+
+
+
+
+
+
