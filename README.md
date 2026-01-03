@@ -1,101 +1,84 @@
 
 # 📚 SQL Concepts & Practice
 
-**Author:** Sandeep Nookala
+## 👤 Author
+**Sandeep Nookala**  
+🔗 [LinkedIn](https://www.linkedin.com/in/nookala-sandeep-5a9225ab/)
 
-This repository contains **SQL concepts, interview Q&A, and practical exercises** to help you learn and master SQL for real-world applications.
+**SQL learning resource** for:
+- Beginners learning SQL fundamentals
+- Developers practicing real-world queries
+- Interview preparation for database-related roles
 
----
-
-## 📂 Contents
-
-- **Chapter-1-Sql_Concepts.docx**  
-  Comprehensive theory notes on SQL fundamentals:
-  - ✅ What is Database & DBMS?
-  - ✅ Types of Databases (RDBMS, NoSQL)
-  - ✅ Difference between SQL & MySQL
-  - ✅ SQL Commands:  
-    - **DDL** (CREATE, DROP, ALTER, TRUNCATE)  
-    - **DML** (SELECT, INSERT, UPDATE, DELETE)  
-    - **DCL** (GRANT, REVOKE)  
-    - **TCL** (COMMIT, ROLLBACK, SAVEPOINT)
-  - ✅ Data Types (CHAR, VARCHAR, INT, DECIMAL, DATE)
-  - ✅ Constraints (NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY)
-  - ✅ Joins (INNER, LEFT, RIGHT, FULL), Self Join, Cross Join
-  - ✅ Views & Materialized Views
-  - ✅ Indexes (Clustered, Non-Clustered)
-  - ✅ Normalization & Denormalization (1NF, 2NF, 3NF, BCNF)
-  - ✅ ACID Properties
-  - ✅ Stored Procedures & Functions
-  - ✅ OLTP vs OLAP
-  - ✅ Aggregate & Scalar Functions
-  - ✅ Subqueries (Correlated & Non-Correlated)
-  - ✅ Window Functions (ROW_NUMBER, RANK, DENSE_RANK)
-
-- **Practice - Q&A.txt**  
-  60+ SQL query exercises covering:
-  - String functions (UPPER, SUBSTR, INSTR, REPLACE)
-  - Filtering & sorting (WHERE, ORDER BY)
-  - Aggregations, Joins, Subqueries, Window functions
-  - Handling duplicates, updating records, and more.
-
-- **Practice 2 - Q&A.txt**  
-  Real-world query scenarios:
-  - Customer and order analysis
-  - Revenue calculations
-  - Date functions (CURDATE, DATE_ADD, DATE_FORMAT)
-  - Advanced filtering and grouping
-  - Top spenders, products not ordered, delivery date calculations
-
-- **Join Queries.txt**  
-  Advanced join-based queries:
-  - Inner, Left, Right joins with examples
-  - Fetching employees with max salary per department
-  - Students’ highest marks, revenue calculations
-  - Customers who haven’t ordered, product-wise revenue
-
-- **Complex Sql Queries.txt**  
-  Real-world complex queries:
-  - Calculate matches played, won, lost (sports dataset)
-  - New vs repeat customers using CTEs
-  - Advanced grouping and conditional aggregations
+It includes **theory concepts, structured chapters, and practical exercises** from **basic to advanced level**.
 
 ---
 
-## ✅ How to Use
+## ✅ Skills Covered
+- SQL Basics (DDL, DML, DCL, TCL)
+- Joins (INNER, LEFT, RIGHT, FULL, Self Join, Cross Join)
+- Subqueries (Correlated & Non-Correlated)
+- Aggregate & Scalar Functions
+- Window Functions (ROW_NUMBER, RANK, DENSE_RANK)
+- Normalization & Denormalization
+- Constraints (Primary Key, Foreign Key, Unique)
+- Views & Materialized Views
+- Indexing (Clustered, Non-Clustered)
+- ACID Properties
+- Stored Procedures & Functions
+- OLTP vs OLAP
+- Date Functions & Formatting
+- Advanced Queries using CTEs
 
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/SandeepNookala/Sql.git
-   cd Sql
-   ```
+---
 
-2. **Practice queries**  
-   - Start with `Practice - Q&A.txt` for basics.
-   - Explore `Practice 2 - Q&A.txt`, `Join Queries.txt`, and `Complex Sql Queries.txt` for advanced scenarios.
-   - Refer to `Chapter-1-Sql_Concepts.docx` for theory.
+## 📂 Repository Structure
+| Chapter | Description |
+|---------|-------------|
+| **Chapter 1** | SQL Concepts (Theory) |
+| **Chapter 2** | Basic Queries |
+| **Chapter 3** | Employee & Department Queries |
+| **Chapter 4** | Customer, Order & Product Queries |
+| **Chapter 5** | Joins & Real-world Scenarios |
+| **Chapter 6** | Advanced SQL (CTEs, Window Functions) |
+
+---
+
+## 🚀 Quick Start
+Clone the repository:
+```bash
+git clone https://github.com/SandeepNookala/Sql.git
+cd Sql
+```
+
+Open files chapter-wise:
+- Start with **Chapter 1** for theory
+- Practice queries from **Chapter 2 onwards**
 
 ---
 
 ## 🛠 Requirements
-
 - MySQL / PostgreSQL / SQL Server (any RDBMS)
 - Basic understanding of SQL commands
 
 ---
 
-## 🚀 Goals
+## 🔗 Connect & Collaborate
+- Contributions are welcome!
+1. Fork the repo  
+2. Create a new branch  
+3. Commit your changes  
+4. Submit a pull request  
 
-- Learn SQL fundamentals
-- Practice real-world queries
-- Prepare for interviews and projects
+---
+
+## 📜 License
+This project is open-source under the **MIT License**.
 
 ---
 
 ### ⭐ Future Enhancements
-- Add advanced SQL topics (CTEs, Stored Procedures, Triggers)
-- Include ER diagrams and schema design examples
-- Provide solutions for all practice questions
-
----
+- ER diagrams & schema design examples
+- Solutions for all practice questions
+- Advanced topics like Stored Procedures, Triggers
 ``
