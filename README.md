@@ -3,7 +3,7 @@
 
 ## 👤 Author
 **Sandeep Nookala**  
-🔗 [LinkedIn](https://www.linkedin.com/in/nookala-sandeep-5a9225ab/)
+🔗 [LinkedIn]https://www.linkedin.com/in/nookala-sandeep/
 
 **SQL learning resource** for:
 - Beginners learning SQL fundamentals
