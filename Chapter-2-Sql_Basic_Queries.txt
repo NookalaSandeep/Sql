@@ -1,174 +1,42 @@
 
-
 DDL - Data Definition language: 
 ===============================
-1.create
-2.drop
-3.alter
-4.truncate
+1.CREATE
+2.DROP
+3.ALTER
+4.TRUNCATE
 
 
-1.Create:
-==========
+1.CREATE:
+=========
 
 Shows available databases:
 --------------------------
 SHOW DATABASES;
 SHOW TABLES ;
 
+
 Current Working database:
 -------------------------
 SELECT DATABASE();
 
-Create new 'TEST' database:
----------------------------
+
+Create INSTITUTE,TEST' databases:
+---------------------------------
+CREATE DATABASE INSTITUTE;
 CREATE DATABASE TEST;
+
 
 To work On preferred database:
 -----------------------------
-USE TEST;
-
-Create new EMPLOYEE Table:
---------------------------
-CREATE TABLE IF NOT EXISTS EMPLOYEE(
-FIRST_NAME VARCHAR(20),
-MIDDLE_NAME VARCHAR(20),
-LAST_NAME VARCHAR(20),
-AGE INT,
-SALARY INT,
-EXPERIENCE FLOAT,
-LOCATION VARCHAR(20),
-PRIMARY KEY(FIRST_NAME)
-);
-
-Check create table statment:
-----------------------------
-SHOW CREATE TABLE employee;
-
-check Structure of table:
----------------------
-describe employee;
-desc employee;
+USE INSTITUTE;
 
 
-2.drop:
-=======
-drop database TEST;
-drop table employee;
-
-3.alter:    used to do strucutral changes to table 
-========
-
-add new column:
----------------
-alter table employee add column id int;
-
-drop column:
-------------
-alter table employee drop column id; 
-
-modify column:
----------------
-alter table employee modify column first_name varchar(30);
-alter table employee modify column location varchar(30);
-
-primary key:
------------
-alter table employee drop primary key;
-
-alter table employee add primary key (first_name);
-
-4.truncate: remove all records
-===========
-truncate table employee;
-
-
-
-
-DML - Data manipulation language
-================================
-1.select 
-2.Insert 
-3.Update
-3.Delete
-4.merge
-
-1.select:
-=========
-simple select:
--------------
-select * from employee;
-
-select specfic column:
-------------------------
-select first_name,last_name from employee;
-
-select specfic rows based on condition:
----------------------------------------
-
-select * from employee where age>27;
-select * from employee where first_name = 'SANDEEP';
-
-case sensitive select query:
-----------------------------
-select * from employee where binary first_name ='SANDEEP'; 
-
-alias:
-------
-select first_name as name ,last_name as surname from employee;
-
-
-2.insert data into tables:
-==========================
-
-Insert with Column Names: Specifies target columns explicitly, making the query safe and flexible.
--------------------------
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,'Narsampet');
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Satish','Nookala',28,190000,9.5,'Narsampet');
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Krishna','Nookala',60,200000,30,'Narsampet');
-
-
-Insert Without Column Names (Column Order): Relies on table column order; risky if schema changes.
--------------------------------------------
-insert into employee values('Krishna',NULL,'Nookala',60,200000,30,'Narsampet');
-insert into employee values('Padma',NULL,'Nookala',50,10000,20,'Narsampet');
-
-
-multiple inserts in one go: Efficient for bulk data insertion, reducing network overhead.
----------------------------
-insert into employee(first_name,last_name,age,salary,experience,location)
-values('anusha','Nookala',27,100,2,'Hyderabad'),
-('Sandeep','Nookala',28,90000,4.5,'Narsampet'),
-('Satish','Nookala',28,190000,9.5,'Hyderabad'),
-('Krishna','Nookala',60,200000,30,'Narsampet'),
-('Padma','Nookala',50,10000,20,'Narsampet');
-
-
-3.UPDATE:
-=========
-update employee set last_name = 'jangili' where salary =100;
-
-update employee set salary = salary+5000 ;
-
-update employee set location = 'bangalore' where first_name = 'Sandeep' and last_name = 'Nookala';
-
-
-4.Delete:
-=========
-remove specfic record:
-----------------------
-delete from employee where first_name= 'anusha';
-
-remove all record:
-------------------
-delete from employee;
-
-
-*************************************************************
 NULL = Unknown value
 
-#Contraints:
-=============
+
+#Contraints to create tables:
+-----------------------------
 
 •	NOT NULL 
 
@@ -180,619 +48,475 @@ NULL = Unknown value
 
 •	UNIQUE 
 
-
-1.NOT NULL:
-===========
-
-create table employee(first_name varchar(20) NOT NULL,
-middle_name varchar(20) ,
-last_name varchar(20) NOT NULL,
-age int NOT NULL,
-salary int NOT NULL,
-experience float NOT NULL,
-location varchar(20) NOT NULL
-);
-
-Check table schema:
--------------------
-desc employee;
-
-
-2. default values:
-==================
-create table employee(first_name varchar(20) NOT NULL,
-middle_name varchar(20) ,
-last_name varchar(20) NOT NULL,
-age int NOT NULL,
-salary int NOT NULL,
-experience float NOT NULL,
-location varchar(20) default 'Narsampet'
-);
-
-Check table schema:
-------------------
-desc employee;
-
-insert multiple records into tables:
------------------------------------
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,Null),('Satish','Nookala',28,190000,9.5,'Hyderabad');
-
-insert into employee(first_name,last_name ,age ,salary ,experience) values('anusha','Nookala',27,100,2),('swathi','Nookala',18,10,0.1),('Krishna','Nookala',60,200000,30),('Padma','Nookala',50,10000,20);
-
-reading data:
--------------
-select * from employee;
-
-
-Combination of NOTNULL and Default values:
-==========================================
-
-create table employee(first_name varchar(20) NOT NULL,
-middle_name varchar(20) ,
-last_name varchar(20) NOT NULL,
-age int NOT NULL,
-salary int NOT NULL,
-experience float NOT NULL,
-location varchar(20) NOT NULL default 'Narsampet'
-);
-
-insert multiple records into tables:
------------------------
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,'bangalore'),('Satish','Nookala',28,190000,9.5,'Hyderabad');
-
-insert into employee(first_name,last_name ,age ,salary ,experience) values('anusha','Nookala',27,100,2),('swathi','Nookala',18,10,0.1),('Krishna','Nookala',60,200000,30),('Padma','Nookala',50,10000,20);
-
-read Data:
-----------
-select * from employee;
-
-Check table schema:
--------------------
-desc employee;
-
-
-3. Primary Key:
-===============
-
-create table if not exists employee(
-id int primary key,
-first_name varchar(20) not null,
-middle_name varchar(20),
-last_name varchar(20) not null,
-age int not null,
-salary int not null,
-experience float not null,
-location varchar(20) not null default 'Narsampet'
-);
-
-multiple inserts:
------------
-insert into employee(id,first_name,last_name ,age ,salary ,experience ,location) values(4,'Sandeep','Nookala',28,90000,4.5,'bangalore'),(3,'Satish','Nookala',28,190000,9.5,'Hyderabad');
-
-insert into employee(id,first_name,last_name ,age ,salary ,experience) values(5,'anusha','Nookala',27,100,2),(6,'swathi','Nookala',18,10,0.1),(1,'Krishna','Nookala',60,200000,30),(2,'Padma','Nookala',50,10000,20);
-
-read Data:
-----------
-select * from employee;
-
-Check table schema:
--------------------
-desc employee;
-
-
-composite primary key:
---------------------
-create table if not exists employee(
-first_name varchar(20) not null,
-middle_name varchar(20),
-last_name varchar(20) not null,
-age int not null,
-salary int not null,
-experience float not null,
-location varchar(20) not null default 'Narsampet',
-primary key (first_name,last_name)
-);
-
-multiple inserts:
------------
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,'bangalore'),('Satish','Nookala',28,190000,9.5,'Hyderabad');
-
-insert into employee(first_name,last_name ,age ,salary ,experience) values('anusha','Nookala',27,100,2),('swathi','Nookala',18,10,0.1),('Krishna','Nookala',60,200000,30),('Padma','Nookala',50,10000,20);
-
-read Data:
-----------
-select * from employee;
-
-Check table schema:
--------------------
-desc employee;
-
-
-Check table schema:
--------------------
-desc employee;
-
-Auto increment is best for primarykey:
----------------------------------------
-
-create table employee(
-id int auto_increment,
-first_name varchar(20) NOT NULL,
-middle_name varchar(20) ,
-last_name varchar(20),
-age int NOT NULL,
-salary int NOT NULL,
-experience float NOT NULL,
-location varchar(20) NOT NULL default 'Narasampet',
-primary key(id),
-unique key (first_name ,last_name)
-);
-
-multiple inserts:
------------
-insert into employee(first_name,last_name ,age ,salary ,experience ,location) values('Sandeep','Nookala',28,90000,4.5,'bangalore'),('Satish','Nookala',28,190000,9.5,'Hyderabad');
-
-insert into employee(first_name,last_name ,age ,salary ,experience) values('anusha','Nookala',27,100,2),('swathi','Nookala',18,10,0.1),('Krishna','Nookala',60,200000,30),('Padma','Nookala',50,10000,20);
-
-Check table schema:
--------------------
-desc employee;
-
-
-
-
-4.Unique key:
-=============
-create table if not exists employee(
-id int auto_increment,
-first_name varchar(20) not null,
-middle_name varchar(20),
-last_name varchar(20),
-age int not null,
-salary int not null,
-experience float not null,
-location varchar(20) not null default 'Narsampet',
-primary key(id),
-unique key (first_name,last_name)
-);
-
-multiple inserts:
------------
-insert into employee(id,first_name,last_name ,age ,salary ,experience ,location) values(1,'Sandeep','Nookala',28,90000,4.5,'bangalore'),(2,'Satish','Nookala',28,190000,9.5,'Hyderabad');
-
-insert into employee(id,first_name,last_name ,age ,salary ,experience) values(3,'anusha','Nookala',27,100,2),(4,'swathi',NULL,18,10,0.1),(5,'Krishna','Nookala',60,200000,30),(6,'Padma','Nookala',50,10000,20);
-
-read Data:
-----------
-select * from employee;
-
-Check table schema:
--------------------
-desc employee;
-
-
-
-Contraints:
-===========
-
 •	FOREIGN KEY
       parent table
 	  child table
 
-1.FOREIGN KEY:
-===============
 
-create courses table:  (Parent table)
+create courses table:  (parent table):
 --------------------------------------
-create table course(
-course_id int auto_increment,
-name varchar(20) not null,
-months int not null,
-fee int not null,
-primary key(course_id)
+CREATE TABLE COURSE (
+COURSE_ID INT AUTO_INCREMENT,
+COURSE_NAME VARCHAR(20) NOT NULL,
+COURSE_FEE INT NOT NULL,
+COURSE_DURATION INT NOT NULL,                  #NOT NULL  CONTRAINT
+PRIMARY KEY (COURSE_ID)                        #PRIMARY KEY CONTRAINT
 );
 
-seed data:
--------------
-insert into course(name,months,fee) values('big data',6,50000),
-('web development',5,40000),
-('data science',12,100000),
-('devops',4,30000);
 
-
-insert into course (name,months,fee) values('data Structure',3,20000);
-
-create Student table (child table):
+create student table(child table):
 ---------------------------------
-
-create table if not exists student (
-id int auto_increment,
-fname varchar(20) not null,
-mname varchar(20),
-lname varchar(20)not null,
-email varchar(20) not null,
-phone varchar(10) not null,
-alternate_phone varchar(10),
-enrollment_date timestamp not null,
-course_id int not null default 1,
-yoe int not null,
-company varchar(20),
-batch_date varchar(20) not null,
-soj varchar(20) not null,
-location varchar(20) not null,
-primary key(id),
-unique key(email),
-foreign key(course_id ) references course(course_id)
+CREATE TABLE STUDENT(
+STUDENT_ID INT AUTO_INCREMENT,
+STUDENT_FNAME VARCHAR(50) NOT NULL ,
+STUDENT_LNAME VARCHAR(50) NOT NULL,
+STUDENT_AGE INT NOT NULL,
+STUDENT_EMAIL VARCHAR(50) NOT NULL,
+STUDENT_PHONE VARCHAR(20) NOT NULL,
+STUDENT_ENROLLMENT_DATE TIMESTAMP NOT NULL,
+STUDENT_COURSE_ID INT NOT NULL DEFAULT 1,                         #DEFAULT CONTRAINT
+STUDENT_LOCATION VARCHAR(50) NOT NULL,
+PRIMARY KEY (STUDENT_ID,STUDENT_FNAME),                           #COMPOSITE PRIMARY KEY CONTRAINT
+UNIQUE KEY (STUDENT_EMAIL,STUDENT_PHONE),                         #UNIQUE KEY CONTRAINT
+FOREIGN KEY (STUDENT_COURSE_ID) REFERENCES COURSE(COURSE_ID)      #FOREIGN KEY CONTRAINT
 );
 
 
-Seed data (intial insert data):
-===============================
-
-insert into student (fname,lname,email,phone,course_id,yoe,
-company,batch_date,soj,location) values 
-('Sandeep','Nookala','sandeep@gmail.com','7989681270',1,5,'tcs','11-11-21','youtube','Bangalore'),
-('Satish','Nookala','satish@gmail.com','9293111539',2,10,'synecron','31-01-22','google','Hyderabad'),
-('Krishna','Nookala','krishna@gmail.com','9059741955',4,20,'google','12-08-19','facebook','Narsampet'),
-('swathi','gattu','swathi@gmail.com','8989681280',3,1,'IBM','12-01-23','instagram','Hyderabad'),
-('Padma','taddu','padma@gmail.com','9979897990',4,5,'microsoft','01-01-20','referal','Narsampet'),
-('anusha','jangili','anusha@gamil.com','6878581270',2,2,'facebook','17-03-23','referal','Hyderabad');
-
-insert into student (fname,lname,email,phone,course_id,yoe,
-company,batch_date,soj,location) values ('teju','Nookala=','teju@gmail.com','8889681170',6,1,'tcs','11-11-21','facebook','tirupathi');
+Create Worker table from  STUDENT Table without data:
+-----------------------------------------------------
+CREATE TABLE WORKER AS SELECT * FROM STUDENT WHERE 1 = 0 ;
 
 
-***********************************************************************
+create employee table from  student table with data:
+---------------------------------------------------
+CREATE TABLE EMPLOYEE AS SELECT * FROM STUDENT;
+
+
+check create table worker:
+--------------------------
+SHOW CREATE TABLE STUDENT;
+
+
+check Structure of table:
+---------------------
+DESCRIBE STUDENT;
+DESC STUDENT;
+
+
+2.DROP:
+=======
+DROP DATABASE TEST;
+DROP TABLE WORKER;
+
+
+3.ALTER:    used to do strucutral changes to table 
+========
+
+rename table name:
+------------------
+ALTER TABLE EMPLOYEE RENAME EMP;
+
+
+add new column:
+---------------
+ALTER TABLE EMPLOYEE ADD COLUMN ID INT;
+
+
+drop column:
+------------
+ALTER TABLE EMPLOYEE DROP COLUMN ID; 
+
+
+modify column:
+--------------
+ALTER TABLE EMPLOYEE MODIFY COLUMN STUDENT_FNAME VARCHAR(30);
+ALTER TABLE EMPLOYEE MODIFY COLUMN STUDENT_LOCATION VARCHAR(30);
+
+
+primary key:
+-----------
+ALTER TABLE EMPLOYEE DROP PRIMARY KEY (STUDENT_FNAME);
+ALTER TABLE EMPLOYEE ADD PRIMARY KEY (STUDENT_FNAME);
+
+
+change column position:
+-----------------------
+ALTER TABLE EMPLOYEE CHANGE COLUMN STUDENT_FNAME STUDENT_FNAME VARCHAR(50) BEFORE STUDENT_ID ;
+ALTER TABLE EMPLOYEE CHANGE COLUMN STUDENT_FNAME STUDENT_LNAME VARCHAR(50) AFTER STUDENT_COURSE_ID ;
+
+
+4.TRUNCATE: remove all records
+===========
+truncate table EMPLOYEE;
+
+
+DML - DATA MANIPULATION LANGUAGE
+================================
+
+1.Insert 
+2.select 
+3.Update
+3.Delete
+4.merge
+
+
+1.INSERT DATA INTO TABLES:
+==========================
+
+Insert with Column Names: Specifies target columns explicitly, making the query safe and flexible.
+-------------------------
+INSERT INTO STUDENT (STUDENT_FNAME,STUDENT_LNAME,STUDENT_AGE,STUDENT_EMAIL,STUDENT_PHONE,STUDENT_ENROLLMENT_DATE,STUDENT_COURSE_ID,STUDENT_LOCATION) VALUES 
+('Sandeep','Nookala',30,'sandeep@gmail.com','7989681270','11-11-21',5,'Bangalore');
+
+INSERT INTO STUDENT (STUDENT_FNAME,STUDENT_LNAME,STUDENT_AGE,STUDENT_EMAIL,STUDENT_PHONE,STUDENT_ENROLLMENT_DATE,STUDENT_COURSE_ID,STUDENT_LOCATION) VALUES 
+('Satish','Nookala',32,'satish@gmail.com','9293111539','31-01-22',2,'Hyderabad');
+ 
+INSERT INTO STUDENT (STUDENT_FNAME,STUDENT_LNAME,STUDENT_AGE,STUDENT_EMAIL,STUDENT_PHONE,STUDENT_ENROLLMENT_DATE,STUDENT_COURSE_ID,STUDENT_LOCATION) VALUES 
+('Krishna','Nookala',56,'krishna@gmail.com','9059741955','12-08-19',1,'Narsampet');
+
+
+Insert Without Column Names (Column Order): Relies on table column order; risky if schema changes.
+-------------------------------------------
+INSERT INTO STUDENT VALUES ('Sandeep','Nookala',30,'sandeep@gmail.com','7989681270','11-11-21',5,'Bangalore');
+
+INSERT INTO STUDENT VALUES ('Satish','Nookala',32,'satish@gmail.com','9293111539','31-01-22',2,'Hyderabad');
+ 
+INSERT INTO STUDENT VALUES ('Krishna','Nookala',56,'krishna@gmail.com','9059741955','12-08-19',1,'Narsampet');
+
+
+multiple inserts in one go: Efficient for bulk data insertion, reducing network overhead.
+---------------------------
+
+#course table data Insert:
+
+INSERT INTO COURSE (COURSE_NAME,COURSE_FEE,COURSE_DURATION) VALUES ('big data',50000,6),
+('web development',40000,5),('data science',100000,12),('devops',30000,4),('data structure',20000,3);
+
+
+#STUDENT table data Insert:
+
+INSERT INTO STUDENT (STUDENT_FNAME,STUDENT_LNAME,STUDENT_AGE,STUDENT_EMAIL,STUDENT_PHONE,STUDENT_ENROLLMENT_DATE,STUDENT_COURSE_ID,STUDENT_LOCATION) VALUES 
+('sandeep','nookala',20,'sandeep@gmail.com','7989681270','11-01-21',4,'narsampet'),
+('satish','nookala',32,'satish@gmail.com','9293111539','31-01-21',4,'hyderabad'),
+('krishna','nookala',56,'krishna@gmail.com','9059741955','12-02-20',1,'narsampet'),
+('sreyansh','nookala',4,'sreyansh@gmail.com','8989681280','12-02-20',1,'hyderabad'),
+('avyansh','nookala',2,'avyansh@gmail.com','8989681280','12-03-19',5,'hyderabad'),
+('padma','taddu',46,'padma@gmail.com','9979897990','01-03-19',3,'narsampet'),
+('anusha','jangili',30,'anusha@gmail.com','6878581270','17-03-19',2,'hyderabad');
+
+
+2.SELECT:
+=========
+simple select:
+-------------
+select * from STUDENT;
+select * from COURSE;
+
+
+select specfic column:
+------------------------
+select STUDENT_FNAME,STUDENT_LNAME from STUDENT;
+
+
+select specfic rows based on condition:
+---------------------------------------
+select * from STUDENT where STUDENT_AGE>27;
+
+
+case sensitive select query:
+----------------------------
+select * from STUDENT where STUDENT_FNAME = 'SANDEEP';
+
+
+alias:
+------
+select STUDENT_FNAME as first_name,STUDENT_LNAME as last_name from STUDENT;
+
+
+3.UPDATE:
+=========
+UPDATE STUDENT SET STUDENT_LOCATION = 'BANGALORE',STUDENT_AGE =30 WHERE STUDENT_FNAME = 'SANDEEP' AND STUDENT_LNAME = 'NOOKALA';
+
+
+4.Delete:
+=========
+CREATE TABLE EMPLOYEE AS SELECT * FROM STUDENT;
+
+
+remove specfic record:
+----------------------
+DELETE FROM EMPLOYEE WHERE STUDENT_FNAME = 'Sandeep' ;
+
+
+remove all record:
+------------------
+DELETE FROM EMPLOYEE;
+
+
 #Aggregate functions:
 =====================
 
 1.count:
-======
-
-select count(*) from student;
+--------
+SELECT COUNT(*) AS TOTAL_STUDENT_COUNT FROM STUDENT;
+SELECT COUNT(*) AS TOTAL_COURSES_COUNT FROM COURSE;
 
 count & distinct:
-===================
-select count((company)) as company_count from student;
+-----------------
+SELECT COUNT(STUDENT_COURSE_ID) AS TOTAL_COURSES FROM STUDENT;
+SELECT COUNT(DISTINCT(STUDENT_COURSE_ID)) AS UNIQUE_COURSES FROM STUDENT;
 
-select count(distinct(company)) as company_count from student;
-
-select count(distinct(location)) as diff_loc from student;
-
-select count(*) from student where batch_date like '%-01-%';
 
 group By:
-=========
-
-select count(*),company from student group by company;
-
-select count(*),soj from student group by soj;
-
-select location,count(*) from student group by location;
-
-select location,soj,count(*) from student group by location,soj;
-
-select course_id,count(*) from student group by course_id;
-
-select batch_date,course_id,count(*) from student group by batch_date,course_id;
+---------
+SELECT COUNT(*) AS NUM_STUDENTS_PER_COURSE,STUDENT_COURSE_ID FROM STUDENT GROUP BY STUDENT_COURSE_ID ;
 
 
 Min & Max:
-==========
+----------
+SELECT MIN(STUDENT_AGE) FROM STUDENT;
+SELECT MAX(STUDENT_AGE) FROM STUDENT;
 
-select min(yoe) from student;
-select max(yoe) from student;
-
-select max(yoe),soj from student group by soj ;
 
 sum:
-====
+----
+SELECT SUM(COURSE_FEE) FROM COURSE;
 
-select sum(yoe),soj from student group by soj;
 
-Age:
-====
-
-select avg(yoe),soj from student group by soj;
-select avg(yoe),location from student group by location;
-select avg(yoe)as avg_yoe,location from student group by location order by avg_yoe;
-select company ,avg(yoe)as avg_yoe from student group by company order by avg_yoe desc;
-
+Avg:
+----
+SELECT AVG(COURSE_FEE) FROM COURSE;
 
 
 having:
-=======
-select soj,count(*) as total from student group by soj having total>1;
+-------
+SELECT COUNT(*) AS NUM_STUDENTS_PER_COURSE,STUDENT_COURSE_ID FROM STUDENT GROUP BY STUDENT_COURSE_ID HAVING NUM_STUDENTS_PER_COURSE>1 ;
+
 
 where:
-=======
-select soj,count(*) as total from student where soj = 'referal'group by soj;
+------
+SELECT * FROM STUDENT WHERE STUDENT_LNAME ='NOOKALA';
 
 
 where and having:
-=================
+-----------------
 
-select location,count(*) as total from student where yoe >= 5 group by location having total>=1;
+SELECT COUNT(*) AS NUM_STUDENTS_PER_COURSE,STUDENT_COURSE_ID FROM STUDENT WHERE STUDENT_LNAME ='NOOKALA' GROUP BY STUDENT_COURSE_ID HAVING NUM_STUDENTS_PER_COURSE>1 ;
 
 
 
-*********************************************************************
 
 logical operators:
 ==================
 
-1. equal       :  = 
-
-select * from student where location = 'bangalore';
-
-2. not equal   : !=
-
-select * from student where location != 'bangalore';
+1. equal:  = 
+------------
+SELECT * FROM STUDENT WHERE STUDENT_LOCATION = 'NARSAMPET';
 
 
-3. and
-=======
-select * from student where location = 'bangalore' and yoe<8 and soj= 'youtube';
+2. not equal: !=
+---------------
+SELECT * FROM STUDENT WHERE STUDENT_LOCATION != 'NARSAMPET';
 
 
-
-4.or
-====
-select * from student where yoe<6 or yoe>12;
-
-select * from student where company = 'tcs' or company = 'google' or company = 'ibm';
-
-between: (in range)
-================
-select * from student where yoe between 6 and 12;
-
-not between: (not range)
-================
-select * from student where yoe not between 6 and 12;
-
-in:(present within given list)
-================
-select * from student where company in ('tcs','google','ibm'); 
-
-not in:(not present within given list)
-================
-select * from student where company not in ('tcs','google','ibm');
+3. and:
+-------
+SELECT * FROM STUDENT WHERE STUDENT_LOCATION = 'NARSAMPET' AND  STUDENT_LNAME = 'NOOKALA';
 
 
-************************************************************************
-DATETIME  format:  YYYY-MM-DD HH:MI: SS   Returns the current date. 
+4.or:
+-----
+SELECT * FROM STUDENT WHERE STUDENT_LOCATION = 'NARSAMPET' OR  STUDENT_LNAME = 'NOOKALA';
+
+
+between: (in range):
+--------------------
+select * from student where STUDENT_ID between 2 and 6
+
+
+not between: (not range):
+-------------------------
+select * from student where STUDENT_ID not between 2 and 6;
+
+
+in:(present within given list):
+-------------------------------
+select * from student where STUDENT_FNAME in ('sandeep','satish')
+
+
+not in:(not present within given list):
+---------------------------------------
+select * from student where STUDENT_FNAME not in ('sandeep','satish')
+
+
+DATE AND TIMESTAMP:
+===================
+
+DATETIME  format:  YYYY-MM-DD HH:MI: SS   Returns the current date.
 TIMESTAMP format:  YYYY-MM-DD HH:MI: SS   Returns the current time.
-
-----------------------
-present date and time:
-----------------------
-select now
-
-select curdate()
-
-select curtime()
-
-
-
 YEAR 	  format:  YYYY or YY             Extracts the year part of a date  
 DAY       format:  D                      Extracts the day part of a date  
 MONTH     format:  M                      Extracts the month part of a date  
-DATE	  format:  YYYY-MM-DD             Extracts the date part of a date  
+DATE	  format:  YYYY-MM-DD             Extracts the date part of a date 
 
 
------------------------------------------- 
+DATE :
+------
+select now
+select curdate()
+select curtime()
+
+
 ftech the day,month,year from date column:
------------------------------------------- 
-
-select dept_id,day(doj) day from dept
-
-select dept_id,month(doj) month from dept
-
-select dept_id,year(doj) year from dept 
-
-select dept_id,date(doj) date from dept
+------------------------------------------
+select day(STUDENT_ENROLLMENT_DATE) day from student;
+select month(STUDENT_ENROLLMENT_DATE) month from student;
+select year(STUDENT_ENROLLMENT_DATE) year from student;
 
 
--------------------------------------------------
 Extract() ---- day/month/year/seconds from date:
--------------------------------------------------
+------------------------------------------------
+select extract(day from STUDENT_ENROLLMENT_DATE) from student;
+select extract(month from STUDENT_ENROLLMENT_DATE) from student;
+select extract(year from STUDENT_ENROLLMENT_DATE) from student;
 
-select dept_id,extract( year from doj) year,extract(month from doj) month ,
-extract(day from doj)day from dept ;
 
----------------------------------------------------------
 DATE_ADD() -----Adds a specified time interval to a date:
 ---------------------------------------------------------
+select date_add(STUDENT_ENROLLMENT_DATE,interval 10 day) day from student
+select date_add(STUDENT_ENROLLMENT_DATE ,interval 1 month) month from student
+select date_add(STUDENT_ENROLLMENT_DATE,interval 1 year) year from student
 
-select dept_id,date_add(doj ,interval 1 year ) year , date_add(doj,interval 1 month) month ,
-date_add(doj, interval 4 hour) hour from dept;
 
-
-
-----------------------------------------------------------------
 DATE_SUB() ------Subtracts a specified time interval from a date:
 -----------------------------------------------------------------
+select date_sub(STUDENT_ENROLLMENT_DATE,interval 10 day) day from student
+select date_sub(STUDENT_ENROLLMENT_DATE,interval 1 month) month from student
+select date_sub(STUDENT_ENROLLMENT_DATE,interval 1 year) year from student
 
-select dept_id,date_sub(doj,interval 1 year)year,date_sub(doj,interval 1 month) month,
-date_sub(doj,interval 4 hour) hour from dept;
 
-------------------------------------------------------------
 DATEDIFF()-----Returns the number of days between two dates:
 ------------------------------------------------------------
+select datediff (STUDENT_ENROLLMENT_DATE,'2011-02-21 00:00:00') as diff from student
 
 
-select datediff('2021-11-11','1977-09-09') as diff
+timestamp:
+==========
+select current_timestamp();
+select now();
 
 
+TIMESTAMPADD() -----Adds a specified time interval to a timestamp:
+------------------------------------------------------------------
+select timestampadd(hour,5,STUDENT_ENROLLMENT_DATE ) as new_timestamp from student;
+select timestampadd(minute,50,STUDENT_ENROLLMENT_DATE ) as new_timestamp from student;
 
 
-
-%a-Abbreviated weekday name (Sun-Sat)
-%b-Abbreviated month name (Jan-Dec)
-%c-Month, numeric (0-12)
-%D-Day of month with English suffix (0th, 1st, 2nd, 3rd)
-%d-Day of the month, numeric (00-31)
-%e-Day of the month, numeric (0-31)
-%f-Microseconds (000000-999999)
-%H-Hour (00-23)
-%h-Hour (01-12)
-%I-Hour (01-12)
-%i-Minutes, numeric (00-59)
-%j-Day of the year (001-366)
-%k-Hour (0-23)
-%l-Hour (1-12)
-%M-Month name (January-December)
-%m-Month, numeric (00-12)
-%p-AM or PM
-%r-Time, 12-hour (hh:mm: ss followed by AM or PM)
-%S-Seconds (00-59)
-%s-Seconds (00-59)
-%T-Time, 24-hour (hh:mm: ss)
-%U-Week (00-53) where Sunday is the first day of the week
-%u-Week (00-53) where Monday is the first day of the week
-%V-Week (01-53) where Sunday is the first day of the week, used with %X
-%v-Week (01-53) where Monday is the first day of the week, used with %x
-%W-Weekday name (Sunday-Saturday)
-%w-Day of the week (0=Sunday, 6=Saturday)
-%X-Year for the week where Sunday is the first day of the week, four digits, used with %V
-%x-Year for the week where Monday is the first day of the week, four digits, used with %v
-%Y-Year, numeric, four digits
-%y-Year, numeric, two digits
-
-**********************************************************
+TIMESTAMPDIFF()-----Returns the number of days between two dates:
+-----------------------------------------------------------------
+select timestampdiff(year,'1977-09-09',STUDENT_ENROLLMENT_DATE) as year_diff from student;
+select timestampdiff(month,'1977-09-09',STUDENT_ENROLLMENT_DATE) as month_diff from student;
+select timestampdiff(day,'2011-02-21 00:00:00',STUDENT_ENROLLMENT_DATE) as day_diff from student;
 
 
-Keywords
+Keywords:
 ========
-
 .Distinct
 .orderby
 .where
 .limit
 .like
 
-Distinct:
-=========
 
-select distinct location from student;
-select distinct company from student;
-select distinct soj from student;
+Distinct:
+---------
+select distinct STUDENT_LOCATION from student;
+select count(distinct(STUDENT_LOCATION)) from student;
+
 
 Order by:
-==========
+---------
+select * from student order by STUDENT_AGE asc;
+select * from student order by STUDENT_AGE desc;
 
-select * from student order by yoe;
-select * from student order by fname;
-select fname,yoe from student order by yoe;
-select * from student order by yoe desc;
-select fname,yoe from student order by 1;
-select fname,yoe from student order by 2;
-select fname,yoe from student order by fname,yoe;
 
 where:
-======
+-----
+select * from student where STUDENT_LNAME = 'nookala'
 
-select * from student where yoe>2;
 
 Limit:
-=======
-select * from student limit 3;
-select * from student limit 0,3;
+-----
+select * from student limit 3
+select * from student limit 0,3
 
-Order by & Limit :
-=================
-select fname,lname,yoe from student order by yoe desc limit 5;
 
-select fname,lname,soj,yoe,enrollment_date from student order by batch_date desc limit 5;
+Order by & Limit:
+----------------
+select * from student order by STUDENT_AGE desc limit 3
+select * from student order by STUDENT_AGE asc limit 3
 
-select * from student order by batch_date desc limit 5;
 
 wildcard character:
-===================
+-------------------
 . % (match with characters)
 . _ (one character)
 
+
 Escape character:
-================
+-----------------
 .\ (ignores character)
 
 
-Keyword search : 
-================
+Keyword search: 
+---------------
 like:
-=====
+-----
+select * from student where STUDENT_ENROLLMENT_DATE like '%-01-%'
+select * from student where STUDENT_FNAME like 's%'
+select * from student where STUDENT_LNAME like '_o%'
+select * from student where STUDENT_LOCATION like 'na%'
 
-select * from student where fname like '%s%';
-select * from student where fname like 's%';
-select * from student where fname like '%s';
-select * from student where fname like '%na';
-select * from student where batch_date like '%-01-%';
-select * from course where name like '%data%';
+
 not like:
-=========
-
-select * from course where name not like '%data%';
-
-Count No.of characters :
-================
-select * from student where fname like '______';
+---------
+select * from student where STUDENT_ENROLLMENT_DATE not like '%-01-%'
 
 
+Count No.of characters:
+-----------------------
+select * from student where STUDENT_FNAME like '_______'
 
 
-*********************************************************************
+Joins:
+------
+create table student_course as (
+select * from student s
+left join
+course c
+on s.STUDENT_COURSE_ID = c.COURSE_ID
+order by STUDENT_ID asc );
+
+select * from student_course;
+
 
 partition by:
-=============
-
-select fname,lname,location, 
-count(*) over(partition by location)as total,
-avg(salary) over(partition by location)as average from employee;
+------------
+select *,row_number() over(partition by STUDENT_LOCATION) row_num from student_course;
 
 
 Row Number: (order by is mandatory)
-==========
-
-select fname,lname,salary,
-row_number() over (order by salary desc)as rownumber from employee;
-
-5th higest salary:
-------------------
-
-select * from (select fname,lname,location,salary,row_number() 
-over(order by salary desc)as rownumber from employee)
-employee where rownumber = 5 ;
-
-
-partition & row_number: Assign row numbers to each partition
-=======================
-
-select fname,lname,salary,location,
-row_number() over(partition by location order by salary)as rownum from employee;
-
-
-all higest each partition:
-----------------------
-
-select * from (select fname,lname,location,salary,
-row_number() over(partition by location order by salary desc)as rownum from employee)employee
-where rownum =1;
+-----------
+select *,row_number() over(partition by STUDENT_LOCATION order by STUDENT_COURSE_ID asc) row_num from student_course;
 
 
 Rank :
-======
+------
+select *,rank() over(partition by STUDENT_LOCATION order by STUDENT_COURSE_ID asc) rank_num from student_course;
 
-select fname,lname,location,salary,
-rank() over(order by salary desc) from employee;
 
 Dense rank:
-===========
-
-select fname,lname,location,salary,
-dense_rank() over(order by salary desc) as "dense_rank" from employee;
-
-
-
-
+-----------
+select *,dense_rank() over(partition by STUDENT_LOCATION order by STUDENT_COURSE_ID asc) dense_rank_num from student_course;
 
 
