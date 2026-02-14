@@ -2,153 +2,151 @@
 SQL queries
 +++++++++++
 
-1.Write an SQL query to fetch “FIRST_NAME” from the employee table using the alias name 'WORKER_NAME' ?
+
+1.list the ways to get count of records in table?
+==================================================
+select count(*) from employee;
+
+select count(id) from employee;
+
+
+2.Write an SQL query to fetch “FIRST_NAME” from the employee table using the alias name 'WORKER_NAME'?
 =====================================================================================================
 select FIRST_NAME as WORKER_NAME from employee;
 
 
-
-2.Write an SQL query to fetch “FIRST_NAME” from the employee table in upper case?
+3.Write an SQL query to fetch “FIRST_NAME” from the employee table in upper case?
 ===============================================================================
-select upper(FIRST_NAME) from employee;
+select upper(first_name) as WORKER_NAME from employee;
 
 
-
-3.Write an SQL query that fetches the unique values of DEPARTMENT from the department table and prints its length?
+4.Write an SQL query that fetches the unique values of DEPARTMENT from the department table and prints its length?
 ==============================================================================================================
 select dept_name,length(dept_name) from department group by dept_name;
-or
+(or)
 select distinct dept_name,length(dept_name) from department;
 
 
-
-4.Write an SQL query to print the first three characters of LAST_NAME from the employee table?
+5.Write an SQL query to print the first three characters of LAST_NAME from the employee table?
 =============================================================================================
 hint : SUBSTRING( string, start_position, length );
+SUBSTR starts at 1 (first character)
 
 select substr(last_name,1,3) from employee;
 
 
-
-5.Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘oscar’ from the employee table?
+6.Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘oscar’ from the employee table?
 ========================================================================================================================
 hint : instr( string,'character' );
 
 select instr(first_name,'a') postion from employee where first_name = 'oscar'
 
 
-
-6.ftech domain name from gmail ?
+7.ftech domain name from gmail ?
 =================================
 select substr(email,instr(email,'@')+1)as domain_name from employee;
 
 
-
-7.Write an SQL query to print the FIRST_NAME from the employee table after replacing ‘a’ with ‘B’?
+8.Write an SQL query to print the FIRST_NAME from the employee table after replacing ‘a’ with ‘B’?
 ================================================================================================
 select replace(first_name,'a','b') from employee;
 
 
+9.count number of 'e' charector in string?
+===========================================
+select length(last_name)-length(replace(last_name,'e','')) from Employee;
 
-8.Write an SQL query to print the FIRST_NAME and LAST_NAME from the employee table into a single column COMPLETE_NAME with || separater?
-========================================================================================================================
+
+10.Write an SQL query to print the FIRST_NAME and LAST_NAME from the employee table into a single column COMPLETE_NAME with || separater?
+=========================================================================================================================================
 select concat(first_name,'||',last_name) Full_Name from employee;
 (or)
 select concat_ws('||',first_name,last_name) Full_Name from employee;
 
 
-9.Write an SQL query to print all employee details from the employee table order by FIRST_NAME Ascending and salary Descending?
-========================================================================================================================
-
+11.Write an SQL query to print all employee details from the employee table order by FIRST_NAME Ascending and salary Descending?
+================================================================================================================================
 select * from employee order by first_name asc ,salary desc;
 
 
-10.Write an SQL queries to print details for employees with the first names “Johnson” and “Brown”,
-without the first names “Johnson” and “Brown” from the employee table?
-====================================================================================================================
+12.Write an SQL queries to print details for employees with the last names “Johnson” and “Brown”, without the last names “Johnson” and “Brown” from the employee table?
+=======================================================================================================================================================================
 select * from employee where last_name in ('Johnson','Brown');
+(or)
 select * from employee where last_name not in ('Johnson','Brown');
 
 
-
-11.Write an SQL query to print details of employees with DEPARTMENT name as “IT support”?
+13.Write an SQL query to print details of employees with DEPARTMENT name as “IT support”?
 ========================================================================================
-select * from employee where dept_no in (select dept_no from department where dept_name = 'IT support')
+select * from employee where dept_no in (select dept_no from department where dept_name = 'IT support');
 
 
-12.Write an SQL query to fetch the count of employees working in the department ‘Engineering’?
+14.Write an SQL query to fetch the count of employees working in the department ‘Engineering’?
 ========================================================================================
-select emp_count from department where dept_name like '%engineering%'
+select emp_count from department where dept_name like '%engineering%';
 (or)
-select emp_count from department where dept_name = 'engineering'
+select emp_count from department where dept_name = 'engineering';
 
 
-
-13. Write an SQL query to print details of the employees whose last_name contains ‘a’?
+15.Write an SQL query to print details of the employees whose last_name contains ‘a’?
 =====================================================================================
-select last_name from employee where last_name like '%a%'
+select last_name from employee where last_name like '%a%';
 
 
-
-14. Write an SQL queries to print details of the employees whose last_name starts with ‘a’,last_name ends with ‘l’?
+16.Write an SQL queries to print details of the employees whose last_name starts with ‘J’,last_name ends with ‘n’?
 ==================================================================================================================
-select last_name from employee where last_name like 'a%'
-select last_name from employee where last_name like 'l%'
+select last_name from employee where last_name like 'J%' and last_name like '%n';
 
 
-
-15. Write an SQL query to print details of the employees whose last_name ends with ‘n’ and contains seven alphabets?
+17.Write an SQL query to print details of the employees whose last_name ends with ‘n’ and contains seven alphabets?
 ====================================================================================================================
-select * from employee where last_name like '______n'
+select * from employee where last_name like '______n';
 
 
-
-16.SQL query to fetch the number of employees for each department in descending order?
+18.SQL query to fetch the number of employees for each department in descending order?
 ====================================================================================
-select emp_count from department order by emp_count desc;
+select count(*) number_of_employees_dept from employee group by dept_no order by number_of_employees_dept desc;
+(or)
+select emp_count from department order by emp_count desc ;
 
 
-
-17.Write an SQL query to fetch the departments that have less than four people in them?
+19.Write an SQL query to fetch the departments that have less than four people in them?
 =======================================================================================
-select dept_name,emp_count from department where emp_count < 4
+select dept_name,emp_count from department where emp_count < 4;
 
 
-
-18.Write an SQL query to print details of the employees who are also Managers?
+20.Write an SQL query to print details of the employees who are also Managers?
 ============================================================================
-select * from employee where emp_id in (select manager_id from department where manager_id is not null)
+select * from employee where emp_id in (select manager_id from department where manager_id is not null);
 
 
-
-19.Write an SQL query to fetch duplicate records count from employee?
+21.Write an SQL query to fetch duplicate records count from employee?
 =====================================================================
-select first_name ,last_name,count(*) cnt from employee group by first_name ,last_name having cnt>1
+select first_name ,last_name,count(*) cnt from employee group by first_name ,last_name having cnt>1;   --individual duplicate recods counts
+(or)
+select count(*) - count( distinct concat_ws('|',first_name,last_name)) from employee;                 -- overall duplicates records in table                  
 
 
-
-20.Write an SQL query to show even and odd rows from employee?
+22.Write an SQL query to show even and odd rows from employee?
 ==============================================================
-select * from employee where (emp_id % 2) = 0
+select * from employee where (emp_id % 2) = 0;
+(or)
+select * from employee where (emp_id % 2) != 0;
 
-select * from employee where (emp_id % 2) != 0
 
-
-
-21.Write an SQL query to clone a new table from another table with and without data?
+23.Write an SQL query to clone a new table from another table with and without data?
 ====================================================================================
-create table workers like employee
+create table workers like employee;
 
 
-22.create new table with unique records?
+24.create new table with unique records?
 ========================================
+create table Unique_Employee as (
+select emp_id,first_name,last_name,email,salary,experience_years,experience_months,dept_no from (select *,dense_rank() over(partition by first_name,last_name order by emp_id asc) den_rank from employee) employee where den_rank = 1 order by emp_id);
+select * from Unique_Employee;
 
-create table unique_employee as
-select * from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name) rn from employee)employee where rn =1 order by emp_id
 
-
-
-23.Write an SQL query to fetch intersecting,union and union all records of two employee,unique_employee tables?
+25.Write an SQL query to fetch intersecting,union and union all records of two employee,unique_employee tables?
 ==============================================================================================================
 
 union all - includes everything
@@ -156,304 +154,261 @@ union     - drop duplicates from another table
 intersect - only matching records from both tables
 
 
-select * from employee
-union all
-select emp_id,first_name,last_name,email,salary,experience_years,experience_months,dept_no from unique_employee
-
-select * from employee
+select * from employee;
 union
-select emp_id,first_name,last_name,email,salary,experience_years,experience_months,dept_no from unique_employee
+select * from Unique_Employee;
 
-
-select * from employee
-intersect
-select emp_id,first_name,last_name,email,salary,experience_years,experience_months,dept_no from unique_employee
-
-
-
-24.Write an SQL query to show one row twice in the resultant table?
-===================================================================
-select * from title where WORKER_TITLE = 'Asst. Manager'
+select * from employee;
 union all
-select * from title where WORKER_TITLE = 'Asst. Manager'
+select * from Unique_Employee;
+
+select * from employee; 
+intersect
+select * from employee;
 
 
+26.Write an SQL query to show records from employee table which does not have in unique_employee table?
+=======================================================================================================
+select * from Employee where emp_id not in (
+select emp_id from Unique_Employee);
 
 
-25.Write an SQL query to fetch the first 50% of records from a table?
+27.Write an SQL query to show one row twice in the resultant table?
+===================================================================
+select * from Unique_Employee where last_name='Hall';
+union all
+select * from Unique_Employee where last_name='Hall';
+
+
+28.Write an SQL query to fetch the first 50% of records from a table?
 =====================================================================
-select * from (select *,ntile(2) over() pt from unique_employee)employee where pt = 1
+select * from (select *,ntile(2) over() pt from unique_employee)employee where pt = 1;
 
 
-
-26.Write an SQL query to show the last record from a table?
+29.Write an SQL query to show the last row/record from a table?
 ===========================================================
-select * from employee order by emp_id desc limit 1
-
-select * from employee where emp_id =(select max(emp_id) from employee)
+select * from Unique_Employee order by emp_id desc limit 1;
+(or)
+select * from Unique_Employee where emp_id =(select max(emp_id) from Unique_Employee);
 
  
-
-27.Write an SQL query to fetch the first row of a table?
+30.Write an SQL query to fetch the first row/record of a table?
 ========================================================
-select * from employee order by emp_id limit 1
-
-select * from employee where emp_id =(select min(emp_id) from employee)
-
-
-============================================================================
-28.find max and min salaries of employ and his details from  employee table?
-============================================================================
-
-select * from employee where salary = (select max(salary) from employee)
-
-select * from employee where salary = (select min(salary) from employee)
-
-
-==================================================
-29.department wise total salaries ascending order?
-==================================================
-
-select dept_no,sum(salary) as salary from employee group by dept_no order by salary;
-
-
-===================================================
-30.find first and last employee details from table?
-===================================================
-
-select * from employee where id = (select min(id) from employee)
-
-
-31.Write an SQL query to fetch the last five records from a table?
-==================================================================
-select * from employee order by emp_id desc limit 5
-
-
-
-32.Write an SQL query to fetch the first five records from a table?
-===================================================================
-select * from employee order by emp_id limit 5
-
-
-
-33.Write an SQL query to print details of the employee fullname and salary whose SALARY between 90000 and 99999?
-=================================================================================================================
-select concat_ws('_',first_name,last_name) full_name from employee where salary between 90000 and 99999 ;
-
-
-34.Write an SQL query to show the top 5 salaries of employee?
-===========================================================
-select * from employee order by salary desc limit 5
-
+select * from Unique_Employee order by emp_id limit 1;
 (or)
-select * from (select *,row_number() over(order by salary desc)rn from employee)employee where rn <=5
+select * from Unique_Employee where emp_id =(select min(emp_id) from Unique_Employee);
 
 
-
-35.Write an SQL query to determine the nth (say n=5) highest salary from employee?
-==================================================================================
-select * from employee order by salary desc limit 1 offset 4 (works only if there are no same salary person in table )
-
-
-select * from (select *,row_number() over(order by salary desc) rn  from employee)employee where rn =5
-
-
-36.Write an SQL query to determine the 5th highest salary without using limit method?
-=====================================================================================
-select * from (select *,row_number() over(order by salary desc) as rn from employee) employee where rn =5
+============================================================================
+31.find max and min salaries of employee and his details from  employee table?
+============================================================================
+select * from Unique_Employee where salary in (select max(salary) from Unique_Employee);
+(or)
+select * from Unique_Employee where salary in (select min(salary) from Unique_Employee);
 
 
-
-37.Write an SQL query to fetch the list of employees with the same salary?
-==========================================================================
-
-select * from employee A
-join
-employee B
-on
-A.salary = B.salary
-and A.emp_id != B.emp_id
-
-
-38.Write an SQL query to show the second-highest salary from a table?
-=====================================================================
-select * from (select * ,dense_rank() over(order by salary desc) rk from employee) employee where rk =2
-
-
-39.Write an SQL query to ftech max salary in each department?
+32.Write an SQL query to ftech max salary in each department?
 =============================================================
-select dept_no,max(salary) from employee group by dept_no
+select dept_no,Max(salary) as sal from Unique_Employee group by dept_no order by dept_no;
 
 
-
-40.Write an SQL query to print the names of employees having the highest salary in each department?
+33.Write an SQL query to print the names of employees having the highest salary in each department?
 ===================================================================================================
-select * from employee where salary in (select max(salary) from employee group by dept_no)
+select first_name,last_name from Unique_Employee where salary in (
+select Max(salary) as sal from Unique_Employee group by dept_no order by dept_no);
 
 (or)
 
-select * from employee e
+select first_name,last_name from Unique_Employee e1
 join 
-(select dept_no,max(salary) max_sal from employee group by dept_no) e1
-where e.salary = e1.max_sal
-and e.dept_no = e1.dept_no
+(select dept_no,Max(salary) sal from Unique_Employee group by dept_no ) e2
+on e1.salary = e2.sal
+and e1.dept_no = e2.dept_no
+order by e1.dept_no;
 
 
+34.Write an SQL query to fetch departments along with the total salaries paid for each of them/department wise total salaries ascending order?
+==============================================================================================================================================
+select dept_no,sum(salary) as dept_wise_salaries from Unique_Employee group by dept_no order by dept_wise_salaries asc; 
 
-41.Write an SQL query to fetch departments along with the total salaries paid for each of them?
-===============================================================================================
-select dept_no,sum(salary) dept_total_sal from employee group by dept_no;
+
+35.find annual salaries of each employee in desc order?
+=======================================================
+select emp_Id,(salary*12) annual_salary from Unique_Employee order by annual_salary desc;
 
 
-42.Write an SQL query to print the FIRST_NAME from the employee table after removing white spaces from the right side and leftside?
+36.find first and last employee details from table?
+===================================================
+select * from Unique_Employee order by emp_id asc limit 1;
+(or)
+select * from Unique_Employee order by emp_id desc limit 1;
+
+
+37.Write an SQL query to fetch the last five records from a table?
+==================================================================
+select * from Unique_Employee order by emp_id desc limit 5;
+
+
+38.Write an SQL query to fetch the first five records from a table?
+===================================================================
+select * from Unique_Employee order by emp_id limit 5;
+
+
+39.Write an SQL query to print details of the employee fullname and salary whose SALARY between 90000 and 99999?
+=================================================================================================================
+select concat(first_name,'_',last_name) as Full_Name from Unique_Employee where salary between 90000 and 99999;
+(or)
+select concat_ws('_',first_name,last_name) as Full_Name from Unique_Employee where salary between 90000 and 99999;
+
+
+40.Write an SQL query to show the top 5 salaries of employee?
+===========================================================
+select * from Unique_Employee order by salary desc limit 5;
+(or)
+select * from (select *,row_number() over(order by salary desc)rn from Unique_Employee)employee where rn <=5;
+
+
+41.Write an SQL query to determine the nth (say n=5) highest salary from employee?
+==================================================================================
+select * from Unique_Employee order by salary desc limit 1 offset 4 (works only if there are no same salary person in table);
+(or)
+select * from (select *,row_number() over(order by salary desc) rn  from Unique_Employee)employee where rn =5;
+
+
+42.Write an SQL query to determine the 5th highest salary without using limit method?
+=====================================================================================
+select * from (select *,row_number() over(order by salary desc) as rn from Unique_Employee) employee where rn =5;
+
+
+43.Write an SQL query to show the second-highest salary from a table?
+=====================================================================
+select * from Unique_Employee order by salary desc limit 1 offset 1;
+(or)
+select * from (select *,row_number() over(order by salary desc) top_sal from Unique_Employee) employee where top_sal = 2;
+
+
+44.Write an SQL query to fetch the list of employees with the same salary?
+==========================================================================
+select * from Unique_employee where emp_id in (
+select e.emp_id from Unique_employee e
+join
+Unique_employee e1
+on e.salary = e1.salary
+and e.emp_id != e1.emp_id
+order by emp_id asc
+);
+
+
+45.Write an SQL query to print the FIRST_NAME from the employee table after removing white spaces from the right side and leftside?
 ================================================================================================================================
-select trim(first_name) trim from employee
-or
-select ltrim(rtrim(first_name)) from employee
+select trim(first_name) trim from employee;
+(or)
+select ltrim(rtrim(first_name)) from employee;
 
 
-===========================================
-43. employee count of individual department?
-===========================================
+46. employee count of individual department/dept wise count of employee sort by ascending order?
+================================================================================================
+select dept_no,count(*) dept_count from Employee group by dept_no order by dept_count;
 
-select dept_no,count(*) dept_emp_count from employee group by dept_no;
 
+47.ftech department who has more than 1 employee?
+=================================================
+select dept_no,count(*) dept_count from Unique_Employee group by dept_no having dept_count >1 order by dept_count;
+
+
+48. Unique employee count of individual department?
 ==================================================
-44. Unique employee count of individual department?
-==================================================
-
-select dept_no,count(*) from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name,emp_id) rn from employee)employee where rn =1  group by dept_no
-
+select dept_no,count(*) from (select *,row_number() over(partition by first_name,last_name order by emp_id) row_num from employee) employee where row_num = 1  group by dept_no; 
+(or)
+select dept_no,count(*) from unique_Employee group by dept_no;
 
 
+49.Duplicate employee count of individual department?
 =====================================================
-45. Duplicate employee count of individual department?
-=====================================================
-
-select dept_no,count(*) from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name,emp_id desc)rn from employee)employee where rn >1 group by dept_no
+select dept_no,count(*) from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name,emp_id desc)rn from employee)employee where rn >1 group by dept_no;
 
 
+50.ftech duplicate records using row number?
 =============================================
-46. ftech duplicate records using row number?
-=============================================
-
 select * from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name) rn from employee) employee where rn >1;
 
 
+51.ftech only unique records from dup_employee table using row_number?
 ======================================================================
-47.ftech only unique records from dup_employee table using row_number?
-======================================================================
+select * from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name) rn from employee) employee where rn =1 order by emp_id;
 
-select * from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name) rn from employee) employee where rn =1 order by emp_id
 
-==========================================
-48. delete duplicates records from employee
-==========================================
-
+52.delete duplicates records from employee?
+============================================
 delete from employee
 where emp_id in (  
-select emp_id from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name,emp_id desc)rn from employee)employee where rn >1)
+select emp_id from (select *,row_number() over(partition by first_name,last_name order by first_name,last_name,emp_id desc)rn from employee)employee where rn >1);
 
-============================================
-49. delete duplicates records from department
-============================================
 
+53.delete duplicates records from department?
+============================================
 delete from department
-where dept_no in (select dept_no from (select *,row_number() over(partition by dept_name order by dept_name,dept_no)rn from department)department where rn >1)
+where dept_no in (select dept_no from (select *,row_number() over(partition by dept_name order by dept_name,dept_no)rn from department)department where rn >1);
 
 
+54.delete duplicate records in employee table using join?
 ========================================================
-50.delete duplicate records in employee table using join?
-========================================================
-select * from dup_employee
-
-delete e1 
-from dup_employee e1
+delete e1 from 
+employee e1
 join
-dup_employee e2
-on e1.id >e2.id
-and e1.fname = e2.fname
-=====================================================
-51.Update employee experience_years to 10 for empid 1?
+employee e2
+on e1.emp_id > e2.emp_id
+and e1.first_name = e2.first_name;
+
+
+55.Update employee experience_years to 10 for empid 1?
 ======================================================
+update employee set experience_years =10 where emp_id = 1;
 
-update employee set experience_years =10 where emp_id = 1
 
-
+56.update employee names by removing leading and trailing space ?
 ===============================================================
-52.update employee names by removing leading and trailing space ?
-===============================================================
-
-update employee set fname = ltrim(rtrim(fname))
+update employee set first_name = trim(first_name);
 
 
-
+57.update employee salary by 10% ?
 =================================
-53.update employee salary by 10% ?
-=================================
-
 update employee set salary = salary + (salary*10)/100
 
 
+58.Update department employees count from employee table?
 =======================================================
-54.Update department employees count from employee table?
-=======================================================
-
-update department d,(select dept_no,count(*) count from employee group by dept_no) d1
-set d.emp_count = d1.count 
-where d.dept_no = d1.dept_no
+update department d, 
+(select dept_no,count(*) emp_count from Unique_Employee group by dept_no) e
+set d.emp_count = e.emp_count
+where d.dept_no = e.dept_no
 
 
+59.Update total salaries of each department from employee table?
 =============================================================
-55.Update total salaries of each department from employee table?
-=============================================================
-
-update department d,
-(select dept_no,sum(salary) dept_sal from employee group by dept_no) e
+update department d, 
+(select dept_no,sum(salary) dept_sal from Unique_Employee group by dept_no) e
 set d.dept_salary = e.dept_sal
 where d.dept_no = e.dept_no
 
-====================================================
-56.find annual salaries of each employee in desc order?
-=====================================================
-
-select emp_id,sum(salary) Annual_salary from employee group by emp_id order by annual_salary desc
-
-
-===========================================
-57.count number of 'e' charector in string?
-===========================================
-select length(last_name) - length(replace(last_name,'e','')) as count_of_e from employee;
 
 
 
-==================================================
-58.list the ways to get count of records in table?
-==================================================
-
-select count(*) from employee
-
-select count(id) from employee
-
-
-=======================================================
-59.dept wise count of employee sort by ascending order?
-=======================================================
-
-select dept_no,count(*) count from employee group by dept_no order by count ;
-
-
-=================================================
-60.ftech department who has more than 1 employee?
-=================================================
-
-select dept_no,count(*) count from employee group by dept_no having count >1
 
 
 
-61.Write an SQL query to show records from employee table which does not have in unique_employee table?
-=======================================================================================================
-select * from employee where emp_id not in (select emp_id from unique_employee)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
