@@ -52,13 +52,14 @@ NULL = Unknown value
       parent table
 	  child table
 
+•	CHECK 
 
 create courses table:  (parent table):
 --------------------------------------
 CREATE TABLE COURSE (
 COURSE_ID INT AUTO_INCREMENT,
 COURSE_NAME VARCHAR(20) NOT NULL,
-COURSE_FEE INT NOT NULL,
+COURSE_FEE DEFAULT 0 CHECK(COURSE_FEE>= 0),    #CHECK CONTRAINT
 COURSE_DURATION INT NOT NULL,                  #NOT NULL  CONTRAINT
 PRIMARY KEY (COURSE_ID)                        #PRIMARY KEY CONTRAINT
 );
