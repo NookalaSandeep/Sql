@@ -6,70 +6,61 @@ salary is greater than the smallest salary of the professor in CSE Department?
 select * from professor;
 select * from department;
 
-select name,salary 
-from professor p
-join department d
-on p.dept_no = d.dept_no
-where dept_name != 'CSE' and salary >(select min(salary)
-from professor p
-join department d
-on p.dept_no = d.dept_no
-where dept_name = 'CSE')
+select p.Name,p.Salary from professor p
+join department d 
+on p.dept_no=d.dept_no
+where d.dept_name != 'CSE'
+and p.salary > (select min(salary) from professor where dept_no in (select dept_no from department where dept_name='CSE'))
 
 
-============================================================
-2.show only unique records in dup_emp table using self join?
-============================================================
-select * from dup_emp;
+=====================================================================
+2.Create table with uniq records from employee table using self join?
+=====================================================================
+select * from employee;
 
-select * from dup_emp d1
-join
-dup_emp d2
-on d1.fname = d2.fname
-and d1.salary = d2.salary
-where d1.id  < d2.id
-
+create table uniq_emp(
+select e1.* from employee e1
+join employee e2
+on e1.fname =e2.fname
+and e1.lname = e2.lname
+and e1.id < e2.id );
 
 
 ===========================================
 3.find employees details who had no manager?
 ============================================
-
-select * from employee;
+select * from uniq_emp;
 select * from department;
 
-select * from employee e
-join 
+select * from uniq_emp e
+join
 department d
-on e.id = d.id
-where d.manager_id is null
-
+on e.dept_no = d.dept_no
+where manager_id is null
 
 
 =====================================================================
 4.ftech employees details who is earning max salary in his department?
 =====================================================================
+select * from uniq_emp;
 
-select * from employee;
-
-select * from employee e
-join 
-(select dept_no,max(salary) salary from employee group by dept_no) e1
-on e.dept_no = e1.dept_no
-and e.salary = e1.salary
-
+select * from uniq_emp e1 
+join
+(select dept_no,max(salary) salary from uniq_emp group by dept_no) e2
+on e1.dept_no = e2.dept_no
+and e1.salary = e2.salary
 
 
 ======================================================================
 5.Fetch the employees who are having same salary from other department?
 =====================================================================
-
-select e.* from employee e
+select * from uniq_emp e1 
 join
-employee e1
-on e.salary = e1.salary
-and e.fname <>e1.fname ;
-
+uniq_emp e2
+on e1.fname != e2.fname
+and e1.lname != e2.lname
+and e1.salary = e2.salary
+and e1.dept_no != e2.dept_no
 
 
 ==================================================================
@@ -102,12 +93,13 @@ right join
 Banana b
 on a.id = b.id
 
+
 ==========================
 select * from Apple1;
 select * from Banana1;
 
 
-inner join:
+inner join?
 ==========
 select * from Apple1 a
 join 
@@ -115,171 +107,141 @@ Banana1 b
 on a.id = b.id
 
 
-left join:
+left join?
 ==========
 select * from Apple1 a
 left join 
 Banana1 b
 on a.id = b.id
 
-right join:
+
+right join?
 ============
 select * from Apple1 a
 right join 
 Banana1 b
 on a.id = b.id
 
+
 ==================================
 
 select * from Apple2;
 select * from Banana2;
 
-inner join:
+inner join?
 ===========
-
 select * from Apple2 a
 join Banana2 b
 on a.id =b.id ;
 
-left join:
-===========
 
+left join?
+===========
 select * from Apple2 a
 left join Banana2 b
 on a.id =b.id ;
 
-right join:
-===========
 
+right join?
+===========
 select * from Apple2 a
 right join Banana2 b
 on a.id =b.id ;
+
 
 ===========================
 
 select * from Apple3;
 select * from Banana3;
 
-inner join:
+inner join?
 ===========
-
 select * from Apple3 a
 join Banana3 b
 on a.id = b.id;
 
-right join:
-===========
 
+right join?
+===========
 select * from Apple3 a
 right join Banana3 b
 on a.id = b.id;
 
-left join:
-===========
 
+left join?
+===========
 select * from Apple3 a
 left join Banana3 b
 on a.id = b.id;
 
 
-
 =============================
 7. ftech student total marks?
 =============================
-
 select student_id,sum(marks) as total_marks from student group by student_id
-
-select * from location ;
-
 
 
 ==================================================
 8. ftech student details with highest total marks?
 ==================================================
-
-select student_id,sum(marks) total_marks from student group by student_id order by total_marks desc limit 1
-
+select * from student s
+join
+(select student_id,sum(marks) total from student group by student_id order by total desc limit 1) s1
+on s.student_id = s1.student_id
 
 
 ======================================================
 9. ftech student details with 3rd highest total marks?
 ======================================================
-
-select student_id,sum(marks) total_marks from student group by student_id order by total_marks desc limit 1 offset 2
-
+select * from student s
+join
+(select student_id,sum(marks) total from student group by student_id order by total desc limit 1 offset 2) s1
+on s.student_id = s1.student_id
 
 
 ======================================================
 10. ftech student_id,total_marks and Address of student?
 ======================================================
-
 select * from location l
-right join
-(select student_id,sum(marks) total_marks from student group by student_id) s
-on l.student_id = s.student_id
+join
+(select student_id,sum(marks) total from student group by student_id) s 
+on s.student_id = l.student_id
 
 
-
-11.total items orders:
-==========================
-
+11.invidual items no.of orders?
+===============================
 select item,count(*) as orders from customer_orders group by item
 
 
-select * from orders;
-select * from customer_orders;
+12.find customers who notyet ordered?
+=====================================
+select * from customer c
+left join orders o
+on c.customer_id = o.customer_id
+where o.order_id is null
 
 
-
-12.find customers who notyet ordered:
-==================================
-select * from orders o
-left join
-customer_orders co
-on
-o.order_id = co.order_id
-where co.order_id is null
-
-
-
-13.Total revenue by each product :
+13.Total revenue by each product ?
 =================================
-select * from products;
-select * from sales;
-
-select p.product_id,sum(p.unit_price * s.qty) Revenue 
-from products p
-join
-sales s
+select p.product_id,sum(p.unit_price * s.qty) revenue from products p
+join sales s
 on p.product_id = s.product_id
-group by product_id
-order by product_id
+group by p.product_id
 
 
-
-14.Total revenue by each product year wise:
+14.Total revenue by each product year wise?
 ===========================================
-select p.product_id,s.year,sum(p.unit_price*s.qty) as revenue
-from products p
-join
-sales s
-on
-p.product_id = s.product_id
-group by p.product_id,s.year
-order by p.product_id
+select p.product_id,sum(p.unit_price * s.qty) revenue from products p
+join sales s
+on p.product_id = s.product_id
+group by p.product_id
 
 
-
-15.Total quantity sold by each product:
+15.Total quantity sold by each product?
 ======================================
-select product_id,sum(qty) total_quantity from sales group by product_id order by product_id
+select product_id,sum(qty) Total_quantity from sales group by product_id;
 
 
-
-16.Total quantity sold by each product year wise:
+16.Total quantity sold by each product year wise?
 ================================================
 select product_id,year,sum(qty) total_quantity from sales group by product_id,year order by product_id
-
-
-
-

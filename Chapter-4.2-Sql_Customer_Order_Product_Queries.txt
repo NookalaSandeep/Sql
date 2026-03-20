@@ -1,8 +1,7 @@
 
-
-1.Retrieve the names of each and every customer who joined before ‘2023=03=25’?
+1.Retrieve the names of each and every customer who joined before ‘2023-03-25’?
 ===============================================================================
-select * from cust_tbl where join_date < '2023-03-25';
+select cust_name from customer where join_date < '2023-03-25';
 
 
 
@@ -12,233 +11,244 @@ select * from customer where year(join_date) = 2023 and month(join_date) = 02;
 
 
 
-3.List out each and every order made by “Kim.”?
+3.List out each and every order made by “Kim”?
 ===============================================
 select * from orders r
 join
 customer c
 on c.cust_id = r.cust_id
-where cust_name = 'kim'
+where cust_name = 'kim';
 
 (or)
 
-select * from orders where cust_id in (select cust_id from customer where cust_name = 'kim' )
+select * from orders where cust_id in (select cust_id from customer where cust_name = 'kim');
+
 
 
 4.Calculate the number of products that are present in the products?
 ====================================================================
-select distinct count(*) total_products from products;
+select distinct count(*) total_Num_products from products;
 
 
 
 5.Find out how many orders were booked as per the data in the orders?
 =====================================================================
-select distinct count(*) Total_Orders from orders
+select distinct count(*) Total_Orders_booked from orders;
 
 
 
 6.What is the average order amount for customers who joined before ‘2023-03-25’?
 ================================================================================
-select cust_id,avg(ttl_amt) from orders where cust_id in (
-select cust_id from customer where join_date < '2023-03-25') group by cust_id 
+select avg (total_price) average_order_amount from (
+select o.order_id,sum(p.unit_price * o.quantity) total_price from orders o
+join 
+customer c
+join
+products p
+on c.cust_id = o.cust_id
+and o.prod_id = p.prod_id
+where c.join_date < '2023-03-25'
+group by o.order_id ) sub ;
+
 
 
 7.Which product is the most popular among those customers who joined in April 2023?
 ==================================================================================
-select * from products where prod_id in(
-select prod_id from orders where cust_id in (
-select cust_id from customer where month(join_date) = '04' and year(join_date) ='2023'))
+select p.prod_name,sum(o.quantity) total_prod_order from orders o
+join
+customer c
+on c.cust_id = o.cust_id
+join
+products p
+on o.prod_id = p.prod_id
+where year(c.join_date) = 2023 and month(c.join_date) = 4
+group by p.prod_name
+order by total_prod_order desc;
 
 
 
 8.What is the total revenue generated from orders placed in May 2023?
 =====================================================================
-select sum(ttl_amt) total_amount from orders where month(ord_date) = 05 and year(ord_date) =2023
+select sum(o.quantity*p.unit_price) total_revenue from orders o
+join products p 
+on o.prod_id = p.prod_id
+where month(order_date) = 5 and year(order_date) = 2023;
+
 
 
 9.What is the number of orders placed by customers who have spent more than $200 on the store?
 ==============================================================================================
-select cust_id,sum(ttl_amt) total,count(cust_id) no_of_orders from orders group by cust_id having total >200
+select sum(num_ord_each_cust) total_num_ord  from (
+select count( distinct order_id) num_ord_each_cust from orders o
+join customer c on o.cust_id = c.cust_id
+join products p on o.prod_id = p.prod_id
+group by o.cust_id
+having sum(o.quantity*p.unit_price) > 200 ) as sub;
+
 
 
 10.Find the customers details who have booked more than one orders?
 ==================================================================
+select * from customer c
+join
+(select cust_id,count(distinct order_id) total_ordered from orders group by cust_id having total_ordered >1) d
+on c.cust_id = d.cust_id;
 
-select * from customer where cust_id in (
-select cust_id order_count from orders group by cust_id having count(cust_id) >1)
 
 
 11.Calculate the total amount spent by each customer in April 2023?
 ==================================================================
-select cust_id,sum(ttl_amt) amount_spent from orders where month(ord_date) = 04 and year(ord_date) = 2023 group by cust_id
+select o.cust_id,sum(o.quantity*p.unit_price) from orders o
+join
+products p
+on o.prod_id = p.prod_id
+where month(o.order_date) = 4 and year(o.order_date) = 2023
+group by o.cust_id;
+
 
 
 12.List each and every product with a unit price between $50.00 and $400.00?
 ============================================================================
-select * from products where unit_price between 50 and 400
+select * from products where unit_price between 50 and 400;
 
 
 
 13.Find the customers who placed orders in both April and May 2023?
 ===================================================================
-select * from customer
-where cust_id in (
-select distinct cust_id from orders where month(ord_date) = 04 and year(ord_date) = 2023
-union
-select distinct cust_id from orders where month(ord_date) = 05 and year(ord_date) = 2023)
+select c.cust_id,count(distinct order_id) from orders o
+join
+customer c on o.cust_id = c.cust_id
+where month(order_date) in (4,5) and year(order_date) = 2023
+group by c.cust_id;
 
 
-13.Find the top 5 customers who have spent the most on their orders in the past 12 months?
+
+14.Find the top 5 customers who have spent the most on their orders in the past 26 months?
 ==========================================================================================
-select c.cust_name,sum(o.ttl_amt) spent 
-from cust_tbl c
-join orders o 
-on c.cust_id = o.cust_id
-where ord_date between curdate()=interval 12 month and curdate()
-group by c.cust_id 
-order by spent desc 
-limit 5
+select c.cust_id ,sum(o.quantity*p.unit_price) spent  from orders o
+join
+customer c on o.cust_id = c.cust_id
+join
+products p on p.prod_id = o.prod_id
+where o.order_date >= date_sub(curdate(), interval 26 month)
+group by c.cust_id
+order by spent desc
+limit 5;
 
 
-14.What is the average order amount for customers who have purchased a “Laptop”?
+
+15.What is the average order amount for customers who have purchased a “Laptop”?
 ================================================================================
-select avg(ttl_amt) from orders
-where cust_id in (
-select cust_id from orders
-where prod_id = (
-select prod_id from prod_tbl where prod_name = 'laptop' ))
+select sum.cust_id,avg(total_amt) from 
+(select distinct o.cust_id,o.order_id,sum(o.quantity*p.unit_price) total_amt from orders o
+join customer c on c.cust_id = o.cust_id
+join products p on p.prod_id = o.prod_id
+group by o.cust_id,o.order_id ) sum
+
+join (select o.order_id,o.cust_id from orders o
+join customer c on c.cust_id = o.cust_id
+join products p on p.prod_id = o.prod_id
+where p.prod_name = 'Laptop') lap
+on sum.order_id= lap.order_id
+group by sum.cust_id;
 
 
-15.Which product has the highest profit margin?
+16.Which product has the highest profit margin?
 ===============================================
-select prod_name,(unit_price=cost_price) as profit
-from prod_tbl
-order by profit desc
-limit 1
+select *,(unit_price-cost_price) profit from products order by profit desc limit 1;
 
 
-16.Retrieve the customer name who spent the most on one single order?
+17.Retrieve the customer name who spent the most on one single order?
 =====================================================================
-select cust_name from cust_tbl
-where cust_id = (select cust_id from orders order by ttl_amt desc limit 1)
+select cust_id, max(ord_amt) Max_ord from
+(select o.cust_id,o.order_id ,sum(o.quantity * p.unit_price) ord_amt from orders o
+join products p on o.prod_id = p.prod_id
+group by o.cust_id,o.order_id) orders 
+group by cust_id
+order by Max_ord desc
+limit 1;
 
 
-17.List out the products that were not ordered by any customer?
+18.List out the products that were not ordered by any customer?
 ===============================================================
-select prod_name from prod_tbl
-where prod_id not in (select distinct prod_id from orders)
+select * from products where prod_id not in (select prod_id from orders);
 
 
-18.Calculate the average total amount spent by customers in May 2023?
+19.Calculate the average total amount spent by customers in May 2023?
 =====================================================================
-SELECT AVG(ttl_amt) AS average_ttl_amt
-FROM orders
-where month(ord_date) = 5 and year(ord_date) = 2023
+select avg(total_amount) from (
+select o.cust_id,sum(o.quantity*p.unit_price) total_amount from orders o
+join products p on o.prod_id = p.prod_id
+join customer c on o.cust_id = c.cust_Id
+where month(order_date) = 5 and year(order_date) =2023
+group by o.cust_id ) sub
 
 
-19.the customers who have not placed any orders in May 2023?
+20.the customers who have not placed any orders in May 2023?
 ============================================================
-select cust_name from cust_tbl
-where cust_id not in 
-(select distinct cust_id from orders
-where month(ord_date) = 5 and year(ord_date) =2023)
+select * from customer where cust_id not in (select cust_id from orders where month(order_date)= 5 and year(order_date)=2023)
 
 
-20.Get the names of all customers,along with the total amount they have spent,ordered by the total amount spent from high to low?
+21.Get the names of all customers,along with the total amount they have spent,ordered by the total amount spent from high to low?
 =================================================================================================================================
-select c.cust_name ,sum(o.ttl_amt) total_amount
-from cust_tbl c
-join orders o
-on c.cust_id = o.cust_id
-group by cust_name
+select c.cust_name,o.cust_id,sum(o.quantity*p.unit_price) total_amount from orders o
+join products p on o.prod_id = p.prod_id
+join customer c on o.cust_id = c.cust_id
+group by o.cust_id
 order by total_amount desc
 
 
-21.Find the customers who have placed orders in both April and May 2022 but have not purchased a “Laptop.”?
+22.Find the customers who have placed orders in both April and May 2022 but have not purchased a “Laptop.”?
 ===========================================================================================================
-select cust_name from cust_tbl
-where cust_id in (
-select cust_id from orders where month(ord_date) = 4 and year(ord_date) = 2023
+select * from customer where cust_id in (
+select cust_id from orders where month(order_date) = 4 and year(order_date) = 2023
 intersect
-select cust_id from orders where month(ord_date) =5 and year(ord_date) =2023
+select cust_id from orders where month(order_date) =5 and year(order_date) =2023
 except
-select cust_id from orders where prod_id = (select prod_id from prod_tbl where prod_name = 'laptop')
+select cust_id from orders where prod_id = (select prod_id from products where prod_name = 'laptop')
 )
 
 
-===============
-Date Functions:
-
-%a-Abbreviated weekday name (Sun-Sat)
-%b-Abbreviated month name (Jan-Dec)
-%W-Weekday name (Sunday-Saturday)
-
-31.Write an SQL query to show the current date and time?
+23.Write an SQL query to show the current date and time?
 ========================================================
 select curdate(),curtime(),current_timestamp(),sysdate(),now() from dual
 
+
+24.ftech year,month,day from orders?
 =============================================
-46.ftech year,month,day from customer_orders?
-=============================================
-select * from customer_orders
-
-select *,day(order_date),month(order_date),year(order_date) from customer_orders ;
+select day(order_date),month(order_date),year(order_date) from orders ;
 
 
-
+25. ftech pervious year,month,day from orders?
 =======================================================
-47. ftech pervious year,month,day from customer_orders?
-=======================================================
-
-select *,day(order_date - interval 1 day) ,month(order_date - interval 1 month),year(order_date - interval 1 year) from customer_orders
+select year(order_date - interval 1 year),month(order_date - interval 1 month),day(order_date - interval 1 day) from orders;
 
 
-
+26.Query to format order_date as day,month ?
 ============================================
-48.Query to format order_date as day,month ?
-============================================
-
-select *,date_format(order_date,'%a-%b-%y') from customer_orders
+select date_format(order_date,'%a-%b-%y') from orders;
 
 
+- %a → Abbreviated weekday name (Mon, Tue, Wed…)
+- %b → Abbreviated month name (Jan, Feb, Mar…)
+- %y → Two‑digit year
 
+
+27. Query to get the estimated delivery date after 15 days from the order date?
 ===============================================================================
-49. Query to get the estimated delivery date after 15 days from the order date?
-===============================================================================
-
-select *,date_add(order_date, interval 15 day) delivery_date from customer_orders
+select *,date_add(order_date, interval 15 day) delivery_date from orders;
 
 
-
+28.Query to get the estimated delivery_date and delivery_day ?
 ==============================================================
-50.Query to get the estimated delivery_date and delivery_day ?
-==============================================================
-
-select *, date_format (date_add(order_date,interval 15 day) , '%W') Delivery_Day from customer_orders
-
-select * , date_format(date_add(order_date,interval 15 day),'%a-%b-%y') Delivery_Date from customer_orders
+select *,date_format(date_add(order_date,interval 15 day),'%a-%b-%y') delivery_day from orders;
 
 
-
+29. Query to get the order_id and customer_id who are getting their order delivered before  2022-01-17?
 =======================================================================================================
-51. Query to get the order_id and customer_id who are getting their order delivered before  2022-01-17?
-=======================================================================================================
-
-select order_id,customer_id from customer_orders where date_add(order_date,interval 15 day) < '2022-01-17' 
+select * from orders where date_add(order_date,interval 15 day) < '2024-01-17'
 
 
 
-select * from employee;
-select * from department;
 
 
-
-********
-=========================================
-9.find no.of months each employee worked?
-=========================================
-
-select emp_id,count(*) months_worked from employee group by emp_id
-
-
-********
